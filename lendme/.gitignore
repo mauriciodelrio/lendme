@@ -1,0 +1,16 @@
+lib-cov
+*.seed
+*.log
+*.csv
+*.dat
+*.out
+*.pid
+*.gz
+
+npm-debug.log
+node_modules
+
+.vscode/settings.json
+
+.DS_Store
+npm-debug.log.*
