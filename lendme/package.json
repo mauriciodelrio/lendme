@@ -3,17 +3,30 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "supervisor ./bin/www"
+    "start": "npm install && npm run-script compile-coffee && npm run-script minify-js && npm run-script start-app",
+    "compile-coffee": "./node_modules/coffeescript/bin/coffee -c -o public/assets/js src/client/",
+    "compile-coffee-watch": "./node_modules/coffeescript/bin/coffee -wco public/assets/js src/client/",
+    "minify-js": "yuicompressor --type js --nomunge --preserve-semi --disable-optimizations -o '.js·:.js' ./public/assets/js/*.js",
+    "start-app": "pm2 --no-daemon start pm2/production.json"
   },
   "dependencies": {
+    "async": "^2.5.0",
     "body-parser": "~1.17.1",
+    "coffee-script": "^1.12.7",
+    "coffeescript": "^1.12.7",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.3",
     "ejs": "^2.5.7",
     "express": "~4.15.2",
+    "express-partials": "^0.3.0",
     "jade": "~1.11.0",
+    "lodash": "^4.17.4",
     "morgan": "~1.8.1",
+    "nodemailer": "^4.2.0",
     "pg": "^6.4.1",
-    "serve-favicon": "~2.4.2"
+    "pm2": "^2.7.1",
+    "serve-favicon": "~2.4.2",
+    "supervisor": "^0.12.0",
+    "yuicompressor": "^2.4.8"
   }
 }

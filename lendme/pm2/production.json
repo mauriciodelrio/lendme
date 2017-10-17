@@ -1,0 +1,14 @@
+{
+  "apps" : [{
+    "name"        : "lendme",
+    "script"      : "./app.coffee",
+    "watch"       : "false",
+    "ignoreWatch" : ["[\\/\\\\]\\./", "node_modules"],
+    "cwd"         : "./",
+    "instances"   : "0",
+    "exec_interpreter" : "coffee",
+    "exec_mode"   : "cluster",
+    "error_file"  : "/var/log/nodejs/pm2-lendme-error.log",
+    "out_file"  : "/var/log/nodejs/pm2-lendme-out.log"
+  }]
+}
