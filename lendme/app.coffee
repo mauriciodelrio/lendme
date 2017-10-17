@@ -2,14 +2,16 @@ express = require('express')
 partials = require('express-partials')
 path = require('path')
 favicon = require('serve-favicon')
+app = express()
 logger = require('morgan')
 cookieParser = require('cookie-parser')
 bodyParser = require('body-parser')
 ejs = require 'ejs'
 CONFIG = require('./config').CONFIG
+server = require('http').Server(app)
+
 index = require('./routes/index')
 users = require('./routes/users')
-app = express()
 # view engine setup
 app.set 'views', path.join(__dirname, 'views')
 app.set 'view engine', 'ejs'
@@ -32,4 +34,10 @@ app.use (req, res, next) ->
   next err
   return
 
-module.exports = app
+# App
+# ----------
+IP = process.env.IP or '127.0.0.1'
+PORT = process.env.PORT or 3000
+server.listen PORT, IP
+_package = require './package.json'
+console.log "#{_package.name} #{_package.version} is running on #{IP}:#{PORT}"
