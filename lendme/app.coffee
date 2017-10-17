@@ -1,17 +1,22 @@
-express = require('express')
-partials = require('express-partials')
-path = require('path')
-favicon = require('serve-favicon')
+express = require 'express'
+partials = require 'express-partials'
+path = require 'path'
+favicon = require 'serve-favicon'
 app = express()
-logger = require('morgan')
-cookieParser = require('cookie-parser')
-bodyParser = require('body-parser')
+logger = require 'morgan'
+cookieParser = require 'cookie-parser'
+bodyParser = require 'body-parser'
 ejs = require 'ejs'
 CONFIG = require('./config').CONFIG
 server = require('http').Server(app)
 
-index = require('./routes/index')
-users = require('./routes/users')
+#ROUTES
+ROUTES = 
+  index: require './src/server/routes/index'
+  err404: require './src/server/routes/err404'
+
+#API
+
 # view engine setup
 app.set 'views', path.join(__dirname, 'views')
 app.set 'view engine', 'ejs'
@@ -20,19 +25,16 @@ app.set 'view engine', 'ejs'
 
 app.use logger('dev')
 app.use bodyParser.json()
-app.use bodyParser.urlencoded(extended: false)
+app.use bodyParser.urlencoded extended: false
 app.use cookieParser()
 app.use express.static(path.join(__dirname, 'public'))
 if process.env.NODE_ENV isnt 'production'
   app.use express.static "#{__dirname}/public"
-app.get '/', index
-app.get '/users', users
+
+#ROUTING
+app.get '/', ROUTES.index
+app.get '*', ROUTES.err404
 # catch 404 and forward to error handler
-app.use (req, res, next) ->
-  err = new Error('Not Found')
-  err.status = 404
-  next err
-  return
 
 # App
 # ----------
