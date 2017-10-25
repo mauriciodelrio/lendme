@@ -1,2 +1,2 @@
 module.exports = (req, res) ->
-  res.render 'index', title: 'Lendme'
+  res.render 'index', title: 'Inicio'
