@@ -14,8 +14,11 @@ server = require('http').Server(app)
 ROUTES = 
   index: require './src/server/routes/index'
   err404: require './src/server/routes/err404'
+  users: require './src/server/routes/users'
 
 #API
+API = 
+  user: require('./src/server/api/user')().all_users
 
 # view engine setup
 app.set 'CONFIG', CONFIG
@@ -35,8 +38,13 @@ if process.env.NODE_ENV isnt 'production'
 
 #ROUTING
 app.get '/', ROUTES.index
-app.get '*', ROUTES.err404
+app.get '/users', ROUTES.users
+
+#ROUTING API
+
+app.get '/api/users', API.user
 # catch 404 and forward to error handler
+app.get '*', ROUTES.err404
 
 # App
 # ----------
