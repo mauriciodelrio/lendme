@@ -1,5 +1,6 @@
 pg = require 'pg'
 async = require 'async'
+_ = require 'lodash'
 #queryIns = client.query 'SELECT * FROM public."Institution" as I'
 #join = client.query 'SELECT * FROM public."User" INNER JOIN public."Institution" ON (public."User".ins_id = public."Institution".ins_id)'
 
@@ -15,23 +16,14 @@ class User
   get_users: (client, cb) ->
     query = client.query 'SELECT * FROM public.User as U', (err, res) ->
       if not err
-        try
-          response = JSON.parse res.rows
-          console.log response
-        catch e
-          console.error e
-        cb? response
+        cb? res.rows
       else
         cb? err
   
   get_user_by_id: (client, params, cb) ->
-    query = client.query "SELECT * FROM public.User as U where U.user_id = #{params}", (err, res) ->
+    query = client.query "SELECT * FROM public.User as U where U.user_id = '#{params}'", (err, res) ->
       if not err
-        try
-          response = JSON.parse res.rows
-          #TODO PARSE DATA
-        catch e
-        cb? response
+        cb? res.rows
       else
         cb? err
 

@@ -21,9 +21,18 @@
     <!-- Compiled and minified CSS -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.100.2/css/materialize.min.css">
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script type="text/javascript" src="<%- settings.CONFIG.STATIC_URL %>/assets/js/lib/jquery.tmpl.min.js"></script>
   </head>
   <body>
     <%- body %>
+    <script id="users" type="text/x-jquery-tmpl">
+      <tr>
+        <th>${id}</th>
+        <th>${name}</th>
+        <th>${mail}</th>
+        <th>${status}</th>
+      </tr>
+    </script>
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>

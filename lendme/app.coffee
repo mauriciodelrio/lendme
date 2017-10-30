@@ -18,7 +18,8 @@ ROUTES =
 
 #API
 API = 
-  user: require('./src/server/api/user')().all_users
+  users: require('./src/server/api/user')().all_users
+  user: require('./src/server/api/user')().user_id
 
 # view engine setup
 app.set 'CONFIG', CONFIG
@@ -42,7 +43,8 @@ app.get '/users', ROUTES.users
 
 #ROUTING API
 
-app.get '/api/users', API.user
+app.get '/api/users', API.users
+app.get '/api/users/:user_id', API.user
 # catch 404 and forward to error handler
 app.get '*', ROUTES.err404
 
