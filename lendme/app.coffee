@@ -15,6 +15,7 @@ ROUTES =
   index: require './src/server/routes/index'
   err404: require './src/server/routes/err404'
   users: require './src/server/routes/users'
+  signin: require './src/server/routes/signin'
 
 #API
 API = 
@@ -40,11 +41,12 @@ if process.env.NODE_ENV isnt 'production'
 #ROUTING
 app.get '/', ROUTES.index
 app.get '/users', ROUTES.users
-
+app.get '/signin', ROUTES.signin
 #ROUTING API
 
 app.get '/api/users', API.users
 app.get '/api/users/:user_id', API.user
+
 # catch 404 and forward to error handler
 app.get '*', ROUTES.err404
 
