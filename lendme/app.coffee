@@ -1,6 +1,8 @@
 express = require 'express'
+session = require 'express-session'
 partials = require 'express-partials'
 path = require 'path'
+RedisStore = require('connect-redis')(session)
 favicon = require 'serve-favicon'
 app = express()
 logger = require 'morgan'
@@ -9,6 +11,21 @@ bodyParser = require 'body-parser'
 ejs = require 'ejs'
 CONFIG = require('./config').CONFIG
 server = require('http').Server(app)
+app.use session {
+  store: new RedisStore host: CONFIG?.DB?.REDIS?.HOST
+  port: CONFIG?.DB?.REDIS?.PORT
+  prefix: CONFIG?.DB?.REDIS?.PREFIX + 'sess:'
+  key: CONFIG.EXPRESS.SESSION.KEY
+  secret: CONFIG.EXPRESS.SESSION.SECRET
+  resave: true,
+  saveUninitialized: true
+}
+# Middleware
+# ----------
+middlewarePath = './src/server/middleware'
+MIDDLEWARE =
+  AUTH: require "#{middlewarePath}/auth"
+  USER_INFO: require "#{middlewarePath}/user_info"
 
 #ROUTES
 ROUTES = 
@@ -16,11 +33,13 @@ ROUTES =
   err404: require './src/server/routes/err404'
   users: require './src/server/routes/users'
   signin: require './src/server/routes/signin'
+  dashboard: require './src/server/routes/dashboard'
 
 #API
 API = 
   users: require('./src/server/api/user')().all_users
   user: require('./src/server/api/user')().user_id
+  signin: require('./src/server/api/user')().signin
 
 # view engine setup
 app.set 'CONFIG', CONFIG
@@ -42,9 +61,11 @@ if process.env.NODE_ENV isnt 'production'
 app.get '/', ROUTES.index
 app.get '/users', ROUTES.users
 app.get '/signin', ROUTES.signin
+app.get '/dashboard', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO], ROUTES.dashboard
 #ROUTING API
 
 app.get '/api/users', API.users
+app.post '/api/signin', API.signin
 app.get '/api/users/:user_id', API.user
 
 # catch 404 and forward to error handler
