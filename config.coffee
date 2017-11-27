@@ -6,7 +6,7 @@ CONFIG =
   ROOT: __dirname
   DB:
     REDIS:
-      HOST: process.env.DB_REDIS_HOST or 'localhost'
+      HOST: process.env.DB_REDIS_HOST or '127.0.0.1'
       PORT: process.env.DB_REDIS_PORT or 6379
       USER: process.env.DB_REDIS_USER or ''
       PASSWORD: process.env.DB_REDIS_PASSWORD or ''
