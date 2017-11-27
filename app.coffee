@@ -3,6 +3,7 @@ session = require 'express-session'
 partials = require 'express-partials'
 path = require 'path'
 RedisStore = require('connect-redis')(session)
+client = require('redis').createClient(process.env.REDIS_URL or 'localhost');
 favicon = require 'serve-favicon'
 app = express()
 logger = require 'morgan'
@@ -12,11 +13,8 @@ ejs = require 'ejs'
 CONFIG = require('./config').CONFIG
 server = require('http').Server(app)
 app.use session {
-  store: new RedisStore({host: CONFIG?.DB?.REDIS?.HOST,
-  port: CONFIG?.DB?.REDIS?.PORT,
-  pass: CONFIG?.DB?.REDIS?.PASSWORD,
-  user: CONFIG?.DB?.REDIS?.USER,
-  prefix: CONFIG?.DB?.REDIS?.PREFIX + 'sess:'})
+  store: new RedisStore client: client
+  prefix: CONFIG?.DB?.REDIS?.PREFIX + 'sess:'
   key: CONFIG.EXPRESS.SESSION.KEY
   secret: CONFIG.EXPRESS.SESSION.SECRET
   resave: true,
