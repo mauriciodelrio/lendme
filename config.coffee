@@ -7,7 +7,7 @@ CONFIG =
   ROOT: __dirname
   DB:
     REDIS:
-      HOST: process.env.DB_REDIS_HOST or 'redis://rediscloud:password@localhost:6379'
+      HOST: process.env.DB_REDIS_HOST or 'redis://rediscloud:password@localhost:'
       PORT: process.env.DB_REDIS_PORT or 6379
       PREFIX: 'lendme:'
   EXPRESS:
