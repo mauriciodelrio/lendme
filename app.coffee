@@ -14,7 +14,6 @@ CONFIG = require('./config').CONFIG
 server = require('http').Server(app)
 Redis = require('ioredis')
 redis = new Redis(process.env.REDIS_URL)
-console.log redis
 app.use session {
   store: new RedisStore client: redis
   prefix: CONFIG?.DB?.REDIS?.PREFIX + 'sess:'
