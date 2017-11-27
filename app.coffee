@@ -11,6 +11,7 @@ bodyParser = require 'body-parser'
 ejs = require 'ejs'
 CONFIG = require('./config').CONFIG
 server = require('http').Server(app)
+module.exports = server
 app.use session {
   store: new RedisStore host: CONFIG?.DB?.REDIS?.HOST
   port: CONFIG?.DB?.REDIS?.PORT
