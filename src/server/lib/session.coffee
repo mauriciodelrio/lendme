@@ -2,7 +2,7 @@ CONFIG = require('../../../config').CONFIG
 User = new (require('./pgconn').User)()
 crypto = require 'crypto'
 redis = require 'redis'
-rclient = redis.createClient CONFIG?.DB?.REDIS?.PORT, CONFIG?.DB?.REDIS?.HOST, prefix: CONFIG?.DB?.REDIS?.PREFIX
+rclient = redis.createClient process.env.REDIS_URL or 'localhost', prefix: CONFIG?.DB?.REDIS?.PREFIX
 
 class Session
   constructor: () ->

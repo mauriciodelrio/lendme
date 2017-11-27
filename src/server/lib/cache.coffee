@@ -1,7 +1,7 @@
 CONFIG = require('../../../config').CONFIG
 crypto = require 'crypto'
 redis = require 'redis'
-rclient = redis.createClient CONFIG?.DB?.REDIS?.PORT, CONFIG?.DB?.REDIS?.HOST, prefix: CONFIG?.DB?.REDIS?.PREFIX
+rclient = redis.createClient process.env.REDIS_URL or 'localhost', prefix: CONFIG?.DB?.REDIS?.PREFIX
 async = require 'async'
 
 class Cache

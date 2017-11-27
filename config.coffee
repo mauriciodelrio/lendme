@@ -7,10 +7,10 @@ CONFIG =
   ROOT: __dirname
   DB:
     REDIS:
-      HOST: process.env.DB_REDIS_HOST or 'ec2-34-232-232-46.compute-1.amazonaws.com'
-      PORT: process.env.DB_REDIS_PORT or 64719
-      USER: 'h'
-      PASSWORD: 'p4a8e85876038d8eff7d0f661d7c59c9993796cbb0d66af5c2e443820ca6344c6'
+      HOST: process.env.DB_REDIS_HOST or 'localhost'
+      PORT: process.env.DB_REDIS_PORT or 6379
+      USER: process.env.DB_REDIS_USER or ''
+      PASSWORD: process.env.DB_REDIS_PASSWORD or ''
       PREFIX: 'lendme:'
   EXPRESS:
     SESSION:

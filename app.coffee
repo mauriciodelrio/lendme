@@ -12,8 +12,11 @@ bodyParser = require 'body-parser'
 ejs = require 'ejs'
 CONFIG = require('./config').CONFIG
 server = require('http').Server(app)
+Redis = require('ioredis')
+redis = new Redis(process.env.REDIS_URL)
+console.log redis
 app.use session {
-  store: new RedisStore client: client
+  store: new RedisStore client: redis
   prefix: CONFIG?.DB?.REDIS?.PREFIX + 'sess:'
   key: CONFIG.EXPRESS.SESSION.KEY
   secret: CONFIG.EXPRESS.SESSION.SECRET
