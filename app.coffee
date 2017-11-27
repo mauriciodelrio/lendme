@@ -78,6 +78,6 @@ app.get '*', ROUTES.err404
 # ----------
 IP = process.env.IP or '127.0.0.1'
 PORT = process.env.PORT or 5000
-server.listen PORT, IP
+server.listen PORT
 _package = require './package.json'
 console.log "#{_package.name} #{_package.version} is running on #{IP}:#{PORT}"
