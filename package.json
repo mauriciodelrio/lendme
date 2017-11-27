@@ -3,10 +3,9 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "npm install && npm run-script compile-coffee && npm run-script minify-js && npm run-script start-app",
+    "start": "npm install && npm run-script compile-coffee && npm run-script && npm run-script start-app",
     "compile-coffee": "./node_modules/coffeescript/bin/coffee -c -o public/assets/js src/client/",
     "compile-coffee-watch": "./node_modules/coffeescript/bin/coffee -wco public/assets/js src/client/",
-    "minify-js": "yuicompressor --type js --nomunge --preserve-semi --disable-optimizations -o '.js·:.js' ./public/assets/js/*.js",
     "start-app": "pm2 --no-daemon start pm2/production.json"
   },
   "dependencies": {
