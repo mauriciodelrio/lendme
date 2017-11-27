@@ -1,3 +1,33 @@
 a {
-  color: #00B7FF;
+  color: #000000;
+}
+
+a:hover {
+  color: #000000;
+}
+
+.img-circle {
+  border-radius: 50%;
+  width: 100%;
+}
+
+.navbar {
+  background-color: #ffffff !important;
+}
+
+.nav {
+  color: #ffffff !important;
+}
+
+
+.jumbotron {
+  background-image: url("/assets/img/classroom.jpg");
+  background-color: #17234E;
+  margin-bottom: 0;
+  min-height: 50%;
+  background-repeat: no-repeat;
+  background-position: center;
+  -webkit-background-size: cover;
+  background-size: cover;
+  height: 100vh;
 }

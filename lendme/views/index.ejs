@@ -1,4 +1,4 @@
-<nav class="navbar navbar-light bg-light">
+<nav class="navbar navbar-light bg-light fixed-top">
   <a class="navbar-brand" href="#">
     <img src="/assets/brand/bootstrap-solid.svg" width="30" height="30" class="d-inline-block align-top" alt="">
     LendMe
@@ -29,21 +29,56 @@
       <p>Como estudiantes entendemos que la comunidad universitaria...</p>
     </div>
   </div>
-  <div class="container">
-    <div class="row">
-      <div class = "col s12">
-        <h1 class ="center">Nuestro Equipo</h1>
-      </div>
-    </div>
-    <div class= "row">
-      <div class = "col s3"> 
-      </div>
-      <div class = "col s3"> 
-      </div>
-      <div class = "col s3"> 
-      </div>
-      <div class = "col s3"> 
-      </div>
+  <div class="row">
+    <div class = "col s12 center">
+      <h1 class ="center">Nuestro Equipo</h1>
     </div>
   </div>
-</div>  
+  <div class="row">
+    <div class = "col s3">
+      <div class="card">
+        <div class = "container">
+          <img class = "img-circle" src="/assets/img/mauro.jpg" alt="">
+        </div>
+        <div class="card-body center">
+          <p class="card-text">Mauricio Del Río</p>
+          <p class="card-text">Arquitecto - Desarrollador</p>
+        </div>
+      </div>
+    </div>
+    <div class = "col s3"> 
+      <div class="card">
+        <div class = "container">
+          <img class = "img-circle" src="/assets/img/katty.png" alt="">
+        </div>
+        <div class="card-body center">
+          <p class="card-text">Katherine Muñoz</p>
+          <p class="card-text">Arquitecta - Desarrolladora</p>
+        </div>
+      </div>
+    </div>
+    <div class = "col s3"> 
+      <div class="card">
+        <div class = "container">
+          <img class = "img-circle" src="/assets/img/ricardo.png" alt="">
+        </div>
+        <div class="card-body center">
+          <p class="card-text">Ricardo Aedo</p>
+          <p class="card-text">Arquitecto - Desarrollador</p>
+        </div>
+      </div>
+    </div>
+    <div class = "col s3">  
+      <div class="card">
+        <div class = "container">
+          <img class = "img-circle" src="/assets/img/bryan.jpeg" alt="">
+        </div>
+        <div class="card-body center">
+          <p class="card-text">Bryan Nuñez</p>
+          <p class="card-text">Arquitecto - Desarrollador</p>
+        </div>
+      </div>       
+    </div>
+  </div>
+</div>
+<%- include partials/footer.ejs %>
