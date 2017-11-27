@@ -7,8 +7,11 @@ CONFIG =
   ROOT: __dirname
   DB:
     REDIS:
-      HOST: process.env.DB_REDIS_HOST or 'redis://rediscloud:GFtYUUN5uWQzpakQ@redis-16689.c8.us-east-1-2.ec2.cloud.redislabs.com'
-      PORT: process.env.DB_REDIS_PORT or 16689
+      HOST: process.env.DB_REDIS_HOST or 'ec2-34-232-232-46.compute-1.amazonaws.com'
+      PORT: process.env.DB_REDIS_PORT or 64719
+      USER: 'h'
+      PASSWORD: 'p4a8e85876038d8eff7d0f661d7c59c9993796cbb0d66af5c2e443820ca6344c6'
+      URI: 'redis://h:p4a8e85876038d8eff7d0f661d7c59c9993796cbb0d66af5c2e443820ca6344c6@ec2-34-232-232-46.compute-1.amazonaws.com:64719'
       PREFIX: 'lendme:'
   EXPRESS:
     SESSION:

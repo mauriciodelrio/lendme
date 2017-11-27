@@ -15,6 +15,8 @@ app.use session {
   store: new RedisStore host: CONFIG?.DB?.REDIS?.HOST
   port: CONFIG?.DB?.REDIS?.PORT
   prefix: CONFIG?.DB?.REDIS?.PREFIX + 'sess:'
+  password: CONFIG?.DB?.REDIS?.PASSWORD
+  user: CONFIG?.DB?.REDIS?.USER
   key: CONFIG.EXPRESS.SESSION.KEY
   secret: CONFIG.EXPRESS.SESSION.SECRET
   resave: true,
