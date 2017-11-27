@@ -8,4 +8,4 @@ lib-cov
 *.gz
 
 npm-debug.log
-lendme/node_modules
+node_modules
