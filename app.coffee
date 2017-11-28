@@ -17,6 +17,7 @@ app.use session {
   port: CONFIG?.DB?.REDIS?.PORT
   pass: CONFIG?.DB?.REDIS?.PASSWORD
   user: CONFIG?.DB?.REDIS?.USER
+  url: CONFIG?.DB?.REDIS?.URL
   prefix: CONFIG?.DB?.REDIS?.PREFIX + 'sess:'
   key: CONFIG.EXPRESS.SESSION.KEY
   secret: CONFIG.EXPRESS.SESSION.SECRET

@@ -10,6 +10,7 @@ CONFIG =
       PORT: process.env.DB_REDIS_PORT or 6379
       USER: process.env.DB_REDIS_USER or ''
       PASSWORD: process.env.DB_REDIS_PASSWORD or ''
+      URL: process.env.REDIS_URL or ''
       PREFIX: 'lendme:'
   EXPRESS:
     SESSION:
