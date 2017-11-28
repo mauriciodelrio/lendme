@@ -30,6 +30,7 @@ npm install
 npm start
 ```
  **Note:** Deben modificar en su reporitorio el string de conexión a BD Postgresql según la confirugración de su máquina.
+ 
 Settings y heroku
 -------------
 
