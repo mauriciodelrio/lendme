@@ -2,7 +2,8 @@ CONFIG = require('../../../config').CONFIG
 User = new (require('./pgconn').User)()
 crypto = require 'crypto'
 redis = require 'redis'
-rclient = redis.createClient process.env.REDIS_URL or 'redis://localhost:6379', prefix: CONFIG?.DB?.REDIS?.PREFIX
+Url = process.env.REDIS_URL or 'redis://localhost:6379'
+rclient = redis.createClient Url, prefix: CONFIG?.DB?.REDIS?.PREFIX
 
 class Session
   constructor: () ->
@@ -37,9 +38,9 @@ class Session
     User.connect (client) =>
       User.create_session client, user_id, (session_data) =>
         if session_data?.ses_id
-          req.session?.session_id = session_data.ses_id
-          req.session?.user_id = user_id
-          req.session?.metadata = metadata if metadata
+          req.session.session_id = session_data.ses_id
+          req.session.user_id = user_id
+          req.session.metadata = metadata if metadata
           key = "app:session:#{crypto.createHash('md5').update(session_data.ses_id).digest('hex')}"
           ttl = @config.session_ttl
           value = 'true'
