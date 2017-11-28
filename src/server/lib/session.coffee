@@ -37,9 +37,9 @@ class Session
     User.connect (client) =>
       User.create_session client, user_id, (session_data) =>
         if session_data?.ses_id
-          req.session.session_id = session_data.ses_id
-          req.session.user_id = user_id
-          req.session.metadata = metadata if metadata
+          req.session?.session_id = session_data.ses_id
+          req.session?.user_id = user_id
+          req.session?.metadata = metadata if metadata
           key = "app:session:#{crypto.createHash('md5').update(session_data.ses_id).digest('hex')}"
           ttl = @config.session_ttl
           value = 'true'
