@@ -26,6 +26,7 @@ middlewarePath = './src/server/middleware'
 MIDDLEWARE =
   AUTH: require "#{middlewarePath}/auth"
   USER_INFO: require "#{middlewarePath}/user_info"
+  REQUEST_INFO: require "#{middlewarePath}/request_info"
 
 #ROUTES
 ROUTES = 
@@ -34,12 +35,15 @@ ROUTES =
   users: require './src/server/routes/users'
   signin: require './src/server/routes/signin'
   dashboard: require './src/server/routes/dashboard'
+  request: require './src/server/routes/request'
+  new_request: require './src/server/routes/new_request'
 
 #API
 API = 
   users: require('./src/server/api/user')().all_users
   user: require('./src/server/api/user')().user_id
   signin: require('./src/server/api/user')().signin
+  request: require('./src/server/api/request')().send
 
 # view engine setup
 app.set 'CONFIG', CONFIG
@@ -62,11 +66,14 @@ app.get '/', ROUTES.index
 app.get '/users', ROUTES.users
 app.get '/signin', ROUTES.signin
 app.get '/dashboard', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO], ROUTES.dashboard
+app.get '/dashboard/request', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO, MIDDLEWARE.REQUEST_INFO], ROUTES.request
+app.get '/dashboard/request/new', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO], ROUTES.new_request
 #ROUTING API
 
 app.get '/api/users', API.users
 app.post '/api/signin', API.signin
 app.get '/api/users/:user_id', API.user
+app.post '/api/request', API.request
 
 # catch 404 and forward to error handler
 app.get '*', ROUTES.err404

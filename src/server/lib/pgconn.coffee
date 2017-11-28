@@ -88,5 +88,23 @@ class User
       else
         console.error err
 
+class Request
+  constructor: () ->
+
+  connect: (cb) ->
+    connectionString = process.env.DATABASE_URL or 'postgres://postgres:root@localhost:5432/lendme'
+    client = new (pg.Client)(connectionString)
+    client.connect()
+    cb? client
+
+  get_request_by_user_id: (client, params, cb) ->
+    query = client.query "SELECT * FROM public.\"Request\" as R WHERE R.user_id = '#{params}'", (err, res) ->
+      if not err
+        cb? res.rows
+      else
+        console.error err
+        cb? err
+
 module.exports =
   User: User
+  Request: Request
