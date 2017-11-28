@@ -23,6 +23,4 @@ middleware = (req, res, next) ->
             Cache.del "request:#{req.session.user_id}", () ->
               next()
 
-  next()
-
 module.exports = middleware
