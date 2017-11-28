@@ -8,8 +8,8 @@ middleware = (req, res, next) ->
   return next() unless req.session.user_id
   Cache.get "user:#{req.session.user_id}", (cache_user) ->
     if cache_user
-      console.log "cache", cache_user
       res.locals.USER = cache_user[0]
+      console.log "hay cache, seteo res locals", res.locals.USER
       next()
     else
       User.connect (client) ->
@@ -18,6 +18,7 @@ middleware = (req, res, next) ->
             user_data = user[0]
             Cache.set "user:#{req.session.user_id}", user_data, (cache_user) ->
               res.locals.USER = user_data
+              console.log "no hay cache, seteo res locals", res.locals.USER
               next()
           else
             Cache.del "user:#{req.session.user_id}", () ->
