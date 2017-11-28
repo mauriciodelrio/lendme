@@ -1,1 +1,26 @@
-<h1>Mis solicitudes</h1>
+<div class= "container">
+  <div class = "center">
+    <h1>Mis Solicitudes</h1>
+  </div>
+  <div class = "row">
+    <div class = "col s12">
+      <table class = "table">
+        <thead>
+          <tr>
+            <th scope = "col">Descripción</th>
+            <th scope = "col">Estado</th>
+          </tr>
+        </thead>
+        <tbody class= "listReq">
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<script src="<%- settings.CONFIG.STATIC_URL %>/assets/js/request.js"></script>
+<script>
+  jQuery(function(){
+    new window.Request(<%- request %>)
+  })
+</script>
