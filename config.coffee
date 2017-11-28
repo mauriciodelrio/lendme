@@ -1,7 +1,7 @@
 require('./_env') if require('fs').existsSync './_env.coffee'
 CONFIG =
   NAME: 'Lendme'
-  URL: process.env.URL or '/'
+  URL: process.env.URL or ''
   STATIC_URL: process.env.STATIC_URL or '' # do not include ending slash
   ROOT: __dirname
   DB:

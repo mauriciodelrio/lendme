@@ -1,5 +1,5 @@
 a {
-  color: #000000;
+  color: #000000 !important;
 }
 
 a:hover {
@@ -11,14 +11,25 @@ a:hover {
   width: 100%;
 }
 
+img {
+  width: 100%;
+}
+
 .navbar {
   background-color: #ffffff !important;
 }
 
 .nav {
-  color: #ffffff !important;
+  color: #000000 !important;
 }
 
+.panel {
+  height: 85vh;
+}
+
+body > nav.navbar.navbar-light.bg-light.justify-content-between > p {
+  color: #000000;
+}
 
 .jumbotron {
   background-image: url("/assets/img/classroom.jpg");
