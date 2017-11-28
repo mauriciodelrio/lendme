@@ -1,4 +1,8 @@
 <nav class="navbar navbar-light bg-light justify-content-between">
-  <a class="navbar-brand">LendMe</a>
+  <div class="col s2">  
+    <a class="navbar-brand">
+      <img src="<%-settings.CONFIG.STATIC_URL %>/assets/img/lend-me-logoerr.svg" width="30" height="30" class="d-inline-block align-top" alt="">
+    LendMe</a>
+  </div>
   <p class="p-inline"><%-USER.user_name%> <%-USER.user_lastname%><a href="#">(Salir)</a></p>
 </nav>

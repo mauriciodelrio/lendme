@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="861px" height="371px" viewBox="0 0 861 371" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 3.8.1 (29687) - http://www.bohemiancoding.com/sketch -->
+    <title>Group 2</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group-2">
+            <path d="M265.426572,153.044635 C266.414798,146.507031 266.927122,139.813345 266.927122,133 C266.927122,129.443054 266.787492,125.91872 266.513415,122.432181 C266.496757,121.501777 266.480463,121 266.480463,121 L266.39309,121 C260.327182,53.1689086 203.336284,0 133.927122,0 C64.5179604,0 7.52706244,53.1689086 1.46115414,121 C1.45703125,121 1.43564275,121.236712 1.40145984,121.687511 C1.08735839,125.416668 0.927122297,129.189622 0.927122297,133 C0.927122297,133.408648 0.92896529,133.816866 0.932643417,134.224646 C0.810908797,151.615324 2.61361955,182.391172 15.2304692,203.148437 C47.4298461,256.122914 134.5,371 134.5,371 C134.5,371 218.150836,260.907629 252.92187,203.148437 C260.536876,190.498925 263.935907,170.265222 265.426572,153.044635 Z" id="Combined-Shape" fill="#3A50A0"></path>
+            <text id="LendMe" font-family="HelveticaNeue, Helvetica Neue" font-size="144" font-weight="normal" fill="#3A51A0">
+                <tspan x="329.444" y="220">Lend</tspan>
+                <tspan x="652.292" y="220" font-family="HelveticaNeue-Bold, Helvetica Neue" font-weight="bold">Me</tspan>
+            </text>
+            <rect id="Rectangle-6" fill="#FFFFFF" x="111" y="280" width="45" height="5"></rect>
+            <g id="Group" transform="translate(133.659320, 171.154921) rotate(11.000000) translate(-133.659320, -171.154921) translate(122.159320, 60.154921)">
+                <rect id="Rectangle-1" fill="#FFFFFF" x="-7.10542736e-14" y="3.05533376e-13" width="23" height="14.5527831" rx="7.27639155"></rect>
+                <rect id="Rectangle-1" fill="#FFFFFF" x="-1.56319402e-13" y="16.6928983" width="23" height="6.42034549" rx="3.21017274"></rect>
+                <rect id="Rectangle-1" fill="#FFFFFF" x="-1.84741111e-13" y="25.681382" width="23" height="6.42034549" rx="3.21017274"></rect>
+                <rect id="Rectangle-1" fill="#FFFFFF" x="-1.13686838e-13" y="34.2418426" width="23" height="165.644914" rx="8"></rect>
+                <polygon id="Triangle-2" fill="#FFFFFF" transform="translate(11.500000, 207.500000) scale(1, -1) translate(-11.500000, -207.500000) " points="11.5 193 23 222 0 222"></polygon>
+                <rect id="Rectangle-5" fill="#3A51A0" x="16.9245283" y="39.378119" width="3.90566038" height="157.940499" rx="1.95283019"></rect>
+            </g>
+        </g>
+    </g>
+</svg>
