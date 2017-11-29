@@ -21,6 +21,6 @@
 <script src="<%- settings.CONFIG.STATIC_URL %>/assets/js/request.js"></script>
 <script>
   jQuery(function(){
-    new window.Request("<%- request %>")
+    new window.Request(<%- JSON.stringify(request) %>)
   })
 </script>
