@@ -5,11 +5,10 @@ class Request
 
   load_requests: () ->
     console.log @requests
-    requests = JSON.parse @requests
-    for request in requests or []
+    for request in @requests
       $('#req_list').tmpl(
-        description: request.req_description
-        state: request.req_state
+        description: @requests[request].req_description
+        state: @requests[request].req_state
       ).appendTo ".listReq"
 
     
