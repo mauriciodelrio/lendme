@@ -11,7 +11,7 @@
             <th scope = "col">Estado</th>
           </tr>
         </thead>
-        <tbody class= "listReq">
+        <tbody class="listReq">
         </tbody>
       </table>
     </div>
@@ -21,6 +21,6 @@
 <script src="<%- settings.CONFIG.STATIC_URL %>/assets/js/request.js"></script>
 <script>
   jQuery(function(){
-    new window.Request(<%- JSON.stringify(request) %>)
+    new window.Request(<%- request %>)
   })
 </script>

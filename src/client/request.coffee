@@ -4,7 +4,7 @@ class Request
     @load_requests()
 
   load_requests: () ->
-    console.log @requests
+    console.log @requests, typeof @requests
     for request in @requests
       console.log request
       $('#req_list').tmpl(
