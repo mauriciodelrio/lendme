@@ -7,7 +7,7 @@ middleware = (req, res, next) ->
   return next() unless req.session.user_id
   Cache.del "request:#{req.session.user_id}", () ->
     Cache.get "request:#{req.session.user_id}", (cache_request) ->
-      if cache_request
+      if false
         res.locals.REQUEST = cache_request
         console.log "hay cache, seteo res locals", res.locals.REQUEST
         next()
