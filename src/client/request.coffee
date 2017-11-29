@@ -1,7 +1,7 @@
 class Request
   constructor: (@requests) ->
     $.ajaxSetup cache: false
-    @load_requests
+    @load_requests()
 
   load_requests: () ->
     console.log @requests
