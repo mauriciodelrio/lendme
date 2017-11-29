@@ -6,9 +6,10 @@ class Request
   load_requests: () ->
     console.log @requests
     for request in @requests
+      console.log request
       $('#req_list').tmpl(
-        description: @requests[request].req_description
-        state: @requests[request].req_state
+        description: request.req_description
+        state: request.req_state
       ).appendTo ".listReq"
 
     
