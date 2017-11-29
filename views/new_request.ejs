@@ -1,1 +1,71 @@
-<h1>Nueva Solicitud</h1>
+<%- include partials/menu_bar.ejs %>
+<div class = 'container panel'>
+  <div class = "center">
+    <h1>Nueva Solicitud</h1>
+  </div>
+  <div class='row'>
+    <div class='col-sm-12'>
+      <form>
+        <div class="row">
+          <div class="col">
+              <div class="form-group">
+                <label for="exampleFormControlSelect1">tipo de solicitud</label>
+                <select class="form-control" id="tipo_solicitud">
+                  <option>1</option>
+                  <option>2</option>
+                </select>
+              </div>
+            </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">tipo de espacio</label>
+              <select class="form-control" id="tipo_espacio">
+                <option>1</option>
+                <option>2</option>
+              </select>
+            </div>
+          </div>
+          <div class="col">
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">bloque</label>
+              <select class="form-control" id="bloque">
+                <option>1</option>
+                <option>2</option>
+              </select>
+            </div>
+          </div>
+          <div class='col'>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Cantidad de personas</label>
+              <input class="form-control" id="capacidad" placeholder="ingrese un número">
+            </div>
+          </div>
+          <div class='col'>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Día</label>
+              <input class="form-control" id="dia">
+            </div>
+          </div>
+          <div class='col'>
+            <div class="form-group">
+              <label for="exampleFormControlInput1">Mes</label>
+              <input class="form-control" id="mes">
+            </div>
+          </div>
+          <div class='col'>
+            <div class="form-check">
+              <label class="form-check-label">
+                <input class="form-check-input" type="checkbox" value="">
+                Recurrente
+              </label>
+            </div>
+          </div>
+          <div class='col'>
+            <button type="submit" class="btn btn-primary">Enviar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<%- include partials/footer.ejs %>

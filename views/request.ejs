@@ -1,4 +1,5 @@
-<div class= "container">
+<%- include partials/menu_bar.ejs %>
+<div class= "container panel">
   <div class = "center">
     <h1>Mis Solicitudes</h1>
   </div>
@@ -17,7 +18,7 @@
     </div>
   </div>
 </div>
-
+<%- include partials/footer.ejs %>
 <script src="<%- settings.CONFIG.STATIC_URL %>/assets/js/request.js"></script>
 <script>
   jQuery(function(){
