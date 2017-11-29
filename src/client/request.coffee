@@ -5,7 +5,8 @@ class Request
 
   load_requests: () ->
     console.log @requests
-    for request in @requests or []
+    requests = JSON.parse @requests
+    for request in requests or []
       $('#req_list').tmpl(
         description: request.req_description
         state: request.req_state
