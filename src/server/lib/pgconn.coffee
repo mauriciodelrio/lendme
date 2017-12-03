@@ -10,7 +10,7 @@ class User
   constructor: () ->
 
   connect: (cb) ->
-    connectionString = process.env.DATABASE_URL or 'postgres://postgres:root@localhost:5432/lendme'
+    connectionString = process.env.DATABASE_URL or 'postgres://postgres:123456@localhost:5432/lendme'
     client = new (pg.Client)(connectionString)
     client.connect()
     cb? client
@@ -92,7 +92,7 @@ class Request
   constructor: () ->
 
   connect: (cb) ->
-    connectionString = process.env.DATABASE_URL or 'postgres://postgres:root@localhost:5432/lendme'
+    connectionString = process.env.DATABASE_URL or 'postgres://postgres:123456@localhost:5432/lendme'
     client = new (pg.Client)(connectionString)
     client.connect()
     cb? client

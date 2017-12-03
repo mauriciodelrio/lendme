@@ -83,7 +83,7 @@ app.get '*', ROUTES.err404
 # App
 # ----------
 IP = process.env.IP or '127.0.0.1'
-PORT = process.env.PORT or 5000
+PORT = process.env.PORT or 3000
 server.listen PORT
 #server.listen PORT, IP
 _package = require './package.json'
