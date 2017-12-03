@@ -5,12 +5,12 @@
   </div>
   <div class='row'>
     <div class='col-sm-12'>
-      <form>
+      <form id="filter" action="get">
         <div class="row">
           <div class="col">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">tipo de solicitud</label>
-                <select class="form-control" id="tipo_solicitud">
+                <select class="form-control" id="tipo_solicitud" name="type_sol" >
                   <option>1</option>
                   <option>2</option>
                 </select>
@@ -19,7 +19,7 @@
           <div class="col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">tipo de espacio</label>
-              <select class="form-control" id="tipo_espacio">
+              <select class="form-control" id="tipo_espacio" name="type_spa">
                 <option>1</option>
                 <option>2</option>
               </select>
@@ -28,7 +28,7 @@
           <div class="col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">bloque</label>
-              <select class="form-control" id="bloque">
+              <select class="form-control" id="bloque" name="time_interval">
                 <option>1</option>
                 <option>2</option>
               </select>
@@ -37,29 +37,29 @@
           <div class='col'>
             <div class="form-group">
               <label for="exampleFormControlInput1">Cantidad de personas</label>
-              <input class="form-control" id="capacidad" placeholder="">
+              <input class="form-control" id="capacidad" placeholder="" name="capacity">
             </div>
           </div>
           <div class='col'>
             <div class="form-group">
               <label for="exampleFormControlInput1">Día</label>
-              <input class="form-control" id="dia">
+              <input class="form-control" id="dia" name="day">
             </div>
           </div>
           <div class='col'>
             <div class="form-group">
               <label for="exampleFormControlInput1">Mes</label>
-              <input class="form-control" id="mes">
+              <input class="form-control" id="mes" name="month">
             </div>
           </div>
           <div class='col'>
             <div class="form-check form-check-inline">
               <label class="form-check-label">Recurrente</label>
-              <input class="form-check-input" type="checkbox" value="">
+              <input class="form-check-input" type="checkbox" name="recurrent">
             </div>
           </div>
           <div class='col'>
-            <button type="submit" class="btn btn-primary">Enviar</button>
+            <button type="submit" class="btn btn-primary" name="action">Enviar</button>
           </div>
         </div>
       </form>
@@ -67,3 +67,10 @@
   </div>
 </div>
 <%- include partials/footer.ejs %>
+
+<script src="<%- settings.CONFIG.STATIC_URL %>/assets/js/new_request.js"></script>
+<script>
+  jQuery(function(){
+    new window.NewRequest()
+  })
+</script>

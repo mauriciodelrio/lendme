@@ -44,6 +44,7 @@ API =
   user: require('./src/server/api/user')().user_id
   signin: require('./src/server/api/user')().signin
   request: require('./src/server/api/request')().send
+  req_spaces: require('./src/server/api/request')().filter_spaces
 
 # view engine setup
 app.set 'CONFIG', CONFIG
@@ -74,6 +75,7 @@ app.get '/api/users', API.users
 app.post '/api/signin', API.signin
 app.get '/api/users/:user_id', API.user
 app.post '/api/request', API.request
+app.get '/api/request/spaces', API.req_spaces
 
 # catch 404 and forward to error handler
 app.get '*', ROUTES.err404

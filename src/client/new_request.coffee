@@ -1,15 +1,18 @@
 class NewRequest
   constructor: () ->
     $.ajaxSetup cache: false
-    @load_requests()
+    @set_bindings()
+  
+  set_bindings: () ->
+    $('#filter').submit @load_spaces_preferences
 
-  load_requests: () ->
-    $.ajax(
-      url: "/api/rew_request"
-      type: 'get'
-      data: params
-    ).always (data) =>
-
+  load_spaces_preferences: (e) ->
+    e.preventDefault()
+    params = $(e.currentTarget).serialize()
+    console.log params
+    ###
+    $.get '/api/request', params, (data) ->
+    ###
     
 window.NewRequest = NewRequest
 

@@ -1,7 +1,7 @@
 User = new (require('../lib/pgconn').User)()
 Cache = new (require('../lib/cache'))()
 Session = new (require('../lib/session'))()
-
+Mail = new (require('../lib/mail'))()
 module.exports = () ->
   all_users: ((req, res) ->
     User.connect (client) ->
@@ -28,6 +28,8 @@ module.exports = () ->
               else
                 console.error resp
             console.log "---- traigo el USER ----"
+            #Mail.send req.body.email, 'bienvenida', {name: String("#{user[0].user_name or ''} #{user[0].user_lastname or ''}").trim()}, (err, resp) ->
+              #console.log err, resp
             Session.set user[0].user_id, {}, req, true, (session_id) ->
               if session_id?
                 console.log "---- Seteo su session ----", session_id
