@@ -105,6 +105,18 @@ class Request
         console.error err
         cb? err
 
+class Space
+  constructor: () ->
+
+  connect: (cb) ->
+    connectionString = process.env.DATABASE_URL or 'postgres://postgres:root@localhost:5432/lendme'
+    client = new (pg.Client)(connectionString)
+    client.connect()
+    cb? client
+
+  filter_space: (client, params, cb) ->
+    
+
 module.exports =
   User: User
   Request: Request

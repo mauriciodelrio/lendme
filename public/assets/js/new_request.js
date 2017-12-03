@@ -18,11 +18,8 @@
       var params;
       e.preventDefault();
       params = $(e.currentTarget).serialize();
-      return console.log(params);
-
-      /*
-      $.get '/api/request', params, (data) ->
-       */
+      console.log(params);
+      return $.get('/api/request/spaces', params, function(data) {});
     };
 
     return NewRequest;

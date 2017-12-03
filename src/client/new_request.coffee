@@ -10,9 +10,11 @@ class NewRequest
     e.preventDefault()
     params = $(e.currentTarget).serialize()
     console.log params
-    ###
-    $.get '/api/request', params, (data) ->
-    ###
+    $.get '/api/request/spaces', params, (data) ->
+      if data.status is 'OK' and data.data
+        console.log 'datos enviados'
+      else
+        console.log data.message
     
 window.NewRequest = NewRequest
 
