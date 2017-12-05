@@ -46,3 +46,7 @@ body > nav.navbar.navbar-light.bg-light.justify-content-between > p {
   background-size: cover;
   height: 100vh;
 }
+
+.logo {
+  width: 7em;
+}
