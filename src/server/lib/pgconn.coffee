@@ -10,7 +10,7 @@ class User
   constructor: () ->
 
   connect: (cb) ->
-    connectionString = process.env.DATABASE_URL or 'postgres://postgres:123456@localhost:5432/lendme'
+    connectionString = process.env.DATABASE_URL or 'postgres://postgres:root@localhost:5432/lendme'
     client = new (pg.Client)(connectionString)
     client.connect()
     cb? client
@@ -26,7 +26,7 @@ class User
   hash: (length = 32) ->
     charset = ''
     Array.apply(0, Array(length)).map( ->
-      ((charset) -> charset.charAt Math.floor(Math.random() * charset.length)) 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+      ((charset) -> charset.charAt Math.floor(Math.random() * charset.length)) 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0root789'
     ).join ''
 
   crypt_pass: (pass) ->
@@ -92,10 +92,16 @@ class Request
   constructor: () ->
 
   connect: (cb) ->
-    connectionString = process.env.DATABASE_URL or 'postgres://postgres:123456@localhost:5432/lendme'
+    connectionString = process.env.DATABASE_URL or 'postgres://postgres:root@localhost:5432/lendme'
     client = new (pg.Client)(connectionString)
     client.connect()
     cb? client
+
+  hash: (length = 32) ->
+    charset = ''
+    Array.apply(0, Array(length)).map( ->
+      ((charset) -> charset.charAt Math.floor(Math.random() * charset.length)) 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0root789'
+    ).join ''
 
   get_request_by_user_id: (client, params, cb) ->
     query = client.query "SELECT * FROM public.\"Request\" as R WHERE R.user_id = '#{params}'", (err, res) ->
@@ -105,7 +111,7 @@ class Request
         console.error err
         cb? err
   
-  get_all_time:(clients,ins_id,cb) ->
+  get_all_time_interval: (client, ins_id, cb) ->
     query = client.query "SELECT time_name,time_begin,time_end FROM public.\"Time_interval\" WHERE time_state = #{true} AND ins_id = '#{ins_id}' ORDER BY time_id ASC ", (err,res) ->
       if not err
         cb? res.rows
@@ -113,7 +119,7 @@ class Request
         console.error err
         cb? err
 
-  get_all_options:(clients,ins_id,cb) ->
+  get_all_options: (client, ins_id, cb) ->
     query = client.query "SELECT opt_name FROM public.\"Option\" WHERE opt_state = #{true} AND ins_id = '#{ins_id}' ORDER BY opt_id ASC ", (err,res) ->
       if not err
         cb? res.rows
@@ -121,7 +127,7 @@ class Request
         console.error err
         cb? err
   
-  get_all_type_space:(clients,ins_id,cb) ->
+  get_all_type_space: (client, ins_id, cb) ->
     query = client.query "SELECT type_spa_name FROM public.\"Type_space\" WHERE ins_id = '#{ins_id}' ORDER BY type_spa_id ASC ", (err,res) ->
       if not err
         cb? res.rows
@@ -129,9 +135,9 @@ class Request
         console.error err
         cb? err
       
-  get_all_request:(client,params,cb) ->
+  get_request_by_state: (client, params, cb) ->
     #busca todas las request con cierto estado y de cierta institucion (params contiene el id de ins y el id del estado) 
-    query = client.query "SELECT * FROM public.\"Request\" AS R WHERE R.state_req_id='#{params.state_reqid}' AND R.ins_id = '#{params.ins_id}'  ", (err,res) ->
+    query = client.query "SELECT * FROM public.\"Request\" AS R WHERE R.state_req_id='#{params.state_req_id}' AND R.ins_id = '#{params.ins_id}'  ", (err,res) ->
       if not err
         cb? res.rows
       else
@@ -139,7 +145,7 @@ class Request
         cb? err
   
 
-  check_spaces:(client, params,cb) ->
+  check_spaces: (client, params, cb) ->
     #query que busca los espacios  con las preferencias (params)
     #falta condicion para las opciones quizas hacer join entre space,space_op?
     query = client.query "Select spa_name, spa_reference FROM public.\"Space\" WHERE spa_id NOT IN (SELECT spa_id FROM public.\"Schedule\" WHERE time_id ='#{params.time_id}' AND sch_date = '#{params.sch_date}') AND spa_state = #{true} AND type_spa_id = '#{params.type_spa_id}' AND ins_id = '#{params.ins_id}'", (err, res) ->
@@ -151,24 +157,25 @@ class Request
 
   new_request:(client, params, cb) ->
     id = crypto.createHash('md5').update(this.hash()).digest 'hex' #query que revisa el numero de solicitudes pendientes que tiene un usuario (quizas usar un if para ver si es necesario hacerlo?)
-    query = client.query "SELECT COALESCE ((SELECT COUNT(user_id) FROM \"Request\" WHERE user_id ='#{params.user_id}' AND state_req_id = '3' GROUP BY user_id),0)" (err,res)->
+    query = client.query "SELECT COALESCE ((SELECT COUNT(user_id) FROM \"Request\" WHERE user_id ='#{params.user_id}' AND state_req_id = '3' GROUP BY user_id),0)" (err, res) ->
       if not err
         if res.rows[0].count(*) > 5 && res.rows[0].type_com_id = '1' #checkeo de si supera el maximo de solicitudes 
           #Notificar
+          cb? "Ha superado el máximo de solicitudes"
         else      
           #query que agrega una request a la tabla
-          query = client.query "INSERT INTO public. \"Request\" VALUES ('#{id}','#{params.ins_id}','#{params.user_id}','#{date}','#{params.time_id}','#{params.req_description}','#{params.type_req_id}','#{params.req_dependant}','#{false}',#{params.spa_id})", (err,res) ->
+          query = client.query "INSERT INTO public. \"Request\" VALUES ('#{id}','#{params.ins_id}','#{params.user_id}','#{date}','#{params.time_id}','#{params.req_description}','#{params.type_req_id}','#{params.req_dependant}','#{false}',#{params.spa_id}) RETURNING *", (err, res) ->
             if not err
-              cb? # no se muy bien que colocar
+              cb? res.rows[0]
             else 
               console.error err
-              cb? err #no estoy seguro
+              cb? err 
       else
         console.error err
             #lo mismo que arriba
 
   change_request_dep:(client, params, cb) -> #query encargada de cambiar el estado de una solicitud
-    query = client.query "UPDATE public.\"Request\" SET 'state_req_id = '#{params.state_req_id}' WHERE req_id = '#{params.req_id}'" , (err,res) ->
+    query = client.query "UPDATE public.\"Request\" SET 'state_req_id = '#{params.state_req_id}' WHERE req_id = '#{params.req_id}'" , (err, res) ->
     if not err
       if params.state_req_id = '1' # 1 (de momento) significa que aprueba la solicitud lo que hace una query para sacar los datos necesarios para agregar un schedule
         query = client.query "SELECT * From public.\"Request\" AS R INNER JOIN public.\"Community\" AS C ON R.user_id = C.user_id INNER JOIN public.\"Space\" AS S ON S.spa_id = R.spa_id WHERE R.req_id = '#{params.req_id}'", (err, res) ->
@@ -182,28 +189,32 @@ class Request
             time_id = res.rows[0].time_id
             spa_id = res.rows[0].spa_id
             ins_id = res.rows[0].ins_id
-          dis.req_to_sch client , params2 , (req) -> ## es necesario escribir algo mas aca?
+          this.req_to_sch client , params2 , (resp) -> ## es necesario escribir algo mas aca?
+            if resp
+              cb? resp
+            else
+              cb? "Error al crear registro"
         else
           console.error err
           cb? err
-      #PEDIR NOTIFICACIÒN
+      else
+        cb? "0"
     else
       console.error err
       cb? err
 
   req_to_sch: (client, params, cb) ->
     id = crypto.createHash('md5').update(this.hash()).digest 'hex' #query que agrega un schedule
-    query = client.query "INSERT INTO public.\"Schedule\" (sch_id,adm_id,com_id,sch_date,time_id,spa_id,sch_description,type_sch_id,sch_capacity,ins_id,sch_state) VALUES ('#{id},'#{params.adm_id}','#{params.com_id}','#{params.sch_date}','#{params.time_id}','#{params.spa_id}','#{params.type_sch_id}','#{params.sch_capacity}','#{params.ins_id}',#{true})", (err, res) -> 
+    query = client.query "INSERT INTO public.\"Schedule\" (sch_id, adm_id, com_id, sch_date, time_id, spa_id, sch_description, type_sch_id, sch_capacity, ins_id, sch_state) VALUES ('#{id},'#{params.adm_id}','#{params.com_id}','#{params.sch_date}','#{params.time_id}','#{params.spa_id}','#{params.type_sch_id}','#{params.sch_capacity}','#{params.ins_id}',#{true}) RETURNING *", (err, res) -> 
       if not err
         cb? res.rows
       else
         console.error err
-
-  #not_gen:(client, params, cb) -> se hace con alguna query?
+        cb? err
 
   #este no se si va aca
-  get_all_schedules:(client,ins_id,cb) ->
-    query = client.query "SELECT * FROM public.\"Schedule\" WHERE sch_state = #{true} AND ins_id = '#{ins_id}' ORDER BY sch_id ASC ", (err,res) ->
+  get_all_schedules:(client, ins_id, cb) ->
+    query = client.query "SELECT * FROM public.\"Schedule\" WHERE sch_state = #{true} AND ins_id = '#{ins_id}' ORDER BY sch_id ASC ", (err, res) ->
       if not err
         cb? res.rows
       else
@@ -214,7 +225,7 @@ class Basic
   constructor: () ->
 
   connect: (cb) ->
-    connectionString = process.env.DATABASE_URL or 'postgres://postgres:123456@localhost:5432/lendme'
+    connectionString = process.env.DATABASE_URL or 'postgres://postgres:root@localhost:5432/lendme'
     client = new (pg.Client)(connectionString)
     client.connect()
     cb? client
