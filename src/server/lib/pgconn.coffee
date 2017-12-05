@@ -114,8 +114,9 @@ class Space
     client.connect()
     cb? client
 
-  filter_space: (client, params, cb) ->
-    
+  get_spaces_with_filters: (client, params, cb) ->
+    query = client.query "SELECT * FROM public.\"Space\" as S INNER JOIN public.\"Schedule\" as Sc ON S.spa_id = Sc.spa_id INNER JOIN public.\"Space_time\" as St ON S.spa_id = St.spa_id INNER JOIN public.\"Time_interval\" as T ON St.time_id = T.time_id INNER JOIN public.\"Type_space\" as Ts ON S.spa_id = Ts.spa_id WHERE Ts.type_spa_id = '#{params.type_spa}' AND ", (err, res) ->
+
 
 module.exports =
   User: User
