@@ -10,7 +10,7 @@ class User
   constructor: () ->
 
   connect: (cb) ->
-    connectionString = process.env.DATABASE_URL or 'postgres://postgres:h0l1b4by@localhost:5432/lendme'
+    connectionString = process.env.DATABASE_URL or 'postgres://postgres:root@localhost:5432/lendme'
     client = new (pg.Client)(connectionString)
     client.connect()
     cb? client
@@ -92,7 +92,7 @@ class Request
   constructor: () ->
 
   connect: (cb) ->
-    connectionString = process.env.DATABASE_URL or 'postgres://postgres:h0l1b4by@localhost:5432/lendme'
+    connectionString = process.env.DATABASE_URL or 'postgres://postgres:root@localhost:5432/lendme'
     client = new (pg.Client)(connectionString)
     client.connect()
     cb? client
@@ -157,9 +157,9 @@ class Request
 
   new_request:(client, params, cb) ->
     id = crypto.createHash('md5').update(this.hash()).digest 'hex' #query que revisa el numero de solicitudes pendientes que tiene un usuario (quizas usar un if para ver si es necesario hacerlo?)
-    query = client.query "SELECT COALESCE ((SELECT COUNT(user_id) FROM \"Request\" WHERE user_id ='#{params.user_id}' AND state_req_id = '3' GROUP BY user_id),0)" (err, res) ->
+    query = client.query "SELECT COALESCE ((SELECT COUNT(user_id) FROM \"Request\" WHERE user_id ='#{params.user_id}' AND state_req_id = '3' GROUP BY user_id),0)", (err, res) ->
       if not err
-        if res.rows[0].count(*) > 5 && res.rows[0].type_com_id = '1' #checkeo de si supera el maximo de solicitudes 
+        if res.rows[0].length > 5 && res.rows[0].type_com_id = '1' #checkeo de si supera el maximo de solicitudes 
           #Notificar
           cb? "Ha superado el máximo de solicitudes"
         else      
@@ -181,14 +181,14 @@ class Request
         query = client.query "SELECT * From public.\"Request\" AS R INNER JOIN public.\"Community\" AS C ON R.user_id = C.user_id INNER JOIN public.\"Space\" AS S ON S.spa_id = R.spa_id WHERE R.req_id = '#{params.req_id}'", (err, res) ->
         if not err
           params2 =  
-            adm_id = params.adm_id
-            sch_date = res.rows[0].req_date
-            sch_capacity = res.rows[0].spa_capacity
-            type_sch_id = params.type_sch_id
-            com_id = res.rows[0].com_id
-            time_id = res.rows[0].time_id
-            spa_id = res.rows[0].spa_id
-            ins_id = res.rows[0].ins_id
+            adm_id: params.adm_id
+            sch_date: res.rows[0].req_date
+            sch_capacity: res.rows[0].spa_capacity
+            type_sch_id: params.type_sch_id
+            com_id: res.rows[0].com_id
+            time_id: res.rows[0].time_id
+            spa_id: res.rows[0].spa_id
+            ins_id: res.rows[0].ins_id
           this.req_to_sch client , params2 , (resp) -> ## es necesario escribir algo mas aca?
             if resp
               cb? resp
