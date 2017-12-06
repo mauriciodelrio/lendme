@@ -170,3 +170,40 @@ hr{
 .lic{
   color: #3a50a0;
 }
+
+.login{
+  background: #3a50a0;
+  width: 36vh;
+  height: 40vh;
+  color: white;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 2em;
+  border-radius: 3px
+}
+
+.login a{
+  -webkit-transition: 500ms ease-out;
+  -moz-transition: 500ms ease-out;
+  -o-transition: 500ms ease-out;
+  transition: 500ms ease-out;
+  color: #2C3E50;
+}
+
+.login a:hover{
+  background: white;
+  color: #3a50a0;
+}
+
+.bingresa button{
+  color: white;
+  background-color: #3a50a0;
+  border-color: white;
+}
+
+.bingresa button:hover{
+  color: #3a50a0;
+  background-color: white;
+  border-color: white;
+}
