@@ -27,7 +27,6 @@ module.exports = () ->
                 console.log resp
               else
                 console.error resp
-            console.log "---- traigo el USER ----"
             #Mail.send req.body.email, 'bienvenida', {name: String("#{user[0].user_name or ''} #{user[0].user_lastname or ''}").trim()}, (err, resp) ->
               #console.log err, resp
             Session.set user[0].user_id, {}, req, true, (session_id) ->

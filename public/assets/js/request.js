@@ -20,7 +20,8 @@
         console.log(request);
         results.push($('#req_list').tmpl({
           description: request.req_description,
-          state: request.req_state
+          date: moment(request.req_date).format('YYYY-MM-DD'),
+          state: request.type_state_req_name
         }).appendTo(".listReq"));
       }
       return results;

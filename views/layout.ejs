@@ -21,6 +21,7 @@
     <!-- Compiled and minified CSS -->
     <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script type="text/javascript" src="<%- settings.CONFIG.STATIC_URL %>/assets/js/lib/jquery.tmpl.min.js"></script>
+    <script type="text/javascript" src="<%- settings.CONFIG.STATIC_URL %>/assets/js/lib/moment.js"></script>
   </head>
   <body>
     <%- body %>
@@ -36,6 +37,7 @@
     <script id="req_list" type="text/x-jquery-tmpl">
       <tr>
         <th>${description}</th>
+        <th>${date}</th>
         <th>${state}</th>
       </tr>
     </script>

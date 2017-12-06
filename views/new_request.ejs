@@ -8,20 +8,16 @@
       <form id="filter" action="get">
         <div class="row">
           <div class="col">
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">tipo de solicitud</label>
-                <select class="form-control" id="tipo_solicitud" name="type_sol" >
-                  <option>1</option>
-                  <option>2</option>
-                </select>
-              </div>
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">tipo de solicitud</label>
+              <select class="form-control" id="tipo_solicitud" name="type_sol" >
+              </select>
             </div>
+          </div>
           <div class="col">
             <div class="form-group">
               <label for="exampleFormControlSelect1">tipo de espacio</label>
               <select class="form-control" id="tipo_espacio" name="type_spa">
-                <option>1</option>
-                <option>2</option>
               </select>
             </div>
           </div>
@@ -29,14 +25,12 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">bloque</label>
               <select class="form-control" id="bloque" name="time_interval">
-                <option>1</option>
-                <option>2</option>
               </select>
             </div>
           </div>
           <div class='col'>
             <div class="form-group">
-              <label for="exampleFormControlInput1">Cantidad de personas</label>
+              <label for="exampleFormControlInput1">Personas</label>
               <input class="form-control" id="capacidad" placeholder="" name="capacity">
             </div>
           </div>
@@ -53,9 +47,9 @@
             </div>
           </div>
           <div class='col'>
-            <div class="form-check form-check-inline">
+            <div class="form-check form-check-inline center">
               <label class="form-check-label">Recurrente</label>
-              <input class="form-check-input" type="checkbox" name="recurrent">
+              <input class="" type="checkbox" name="recurrent">
             </div>
           </div>
           <div class='col'>
@@ -65,9 +59,78 @@
       </form>
     </div>
   </div>
+  <div class='row'>
+    <div class='col col-sm-12'>
+      <table class = "table">
+        <thead>
+          <tr>
+            <th scope = "col">Nombre</th>
+            <th scope = "col">Descripción</th>
+            <th scope = "col">Referencia</th>
+            <th scope = "col">Capacidad</th>
+            <th scope = "col">Seleccionar</th>
+          </tr>
+        </thead>
+        <tbody class= "spaces-results">
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-sm-12 center">
+      <h1>Opciones</h1>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-sm-12">
+      <form id="confirm_request">
+        <div class="row" id="opts">
+        </div>
+        <div class="row">
+          <div class = "col col-sm-10">
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Descripción</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description"></textarea>
+            </div>
+          </div>
+          <div class= "col col-sm-2">
+            <button id="conf_button" type="submit" class="btn btn-primary" name="action" disabled>Confirmar Solicitud</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 <%- include partials/footer.ejs %>
-
+<script id="req_type" type="text/x-jquery-tmpl">
+  <option value="${id}">${name}</option>
+</script>
+<script id="spa_type" type="text/x-jquery-tmpl">
+  <option value="${id}">${name}</option>
+</script>
+<script id="time_interval" type="text/x-jquery-tmpl">
+  <option value="${id}">${name}</option>
+</script>
+<script id="time_interval" type="text/x-jquery-tmpl">
+  <option value="${id}">${name}</option>
+</script>
+<script id="spaces_disp" type="text/x-jquery-tmpl">
+  <tr id="${id}">
+    <th>${name}</th>
+    <th>${description}</th>
+    <th>${reference}</th>
+    <th>${capacity}</th>
+    <th><a id="selected-${id}" class="sel_space" href="#"><i class="fa fa-check" aria-hidden="true"></i>Elegir espacio</a></th>
+  </tr>
+</script>
+<script id="options" type="text/x-jquery-tmpl">
+  <div class='col'>
+    <div class="form-check form-check-inline center">
+      <label class="form-check-label">${name}</label>
+      <input class="" type="checkbox" name="opt-${id}" value="${id}">
+    </div>
+  </div>
+</script>
 <script src="<%- settings.CONFIG.STATIC_URL %>/assets/js/new_request.js"></script>
 <script>
   jQuery(function(){

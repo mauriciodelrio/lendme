@@ -45,6 +45,10 @@ API =
   signin: require('./src/server/api/user')().signin
   request: require('./src/server/api/request')().send
   req_spaces: require('./src/server/api/request')().filter_spaces
+  time_interval: require('./src/server/api/request')().all_time_interval
+  type_space: require('./src/server/api/request')().all_type_space
+  type_request: require('./src/server/api/request')().all_type_request
+  options_by_space: require('./src/server/api/request')().all_options_by_space
 
 # view engine setup
 app.set 'CONFIG', CONFIG
@@ -76,6 +80,10 @@ app.post '/api/signin', API.signin
 app.get '/api/users/:user_id', API.user
 app.post '/api/request', API.request
 app.get '/api/request/spaces', API.req_spaces
+app.get '/api/request/interval', API.time_interval
+app.get '/api/request/type_space', API.type_space
+app.get '/api/request/type_request', API.type_request
+app.get '/api/request/options', API.options_by_space
 
 # catch 404 and forward to error handler
 app.get '*', ROUTES.err404

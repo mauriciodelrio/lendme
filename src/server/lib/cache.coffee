@@ -56,8 +56,6 @@ class Cache
 
   del: (key, cb) ->
     rclient.DEL key, (error, response) ->
-      console.log "cache response:", response
-      console.log "error??:", error
       cb? !error?
 
   hdel: (key, type..., cb) ->

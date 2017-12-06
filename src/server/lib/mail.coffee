@@ -38,7 +38,6 @@ class Mail
           headers:
             'X-Mailer': 'LENDME-LEND-MLR-1.0'
         smtp_transport.sendMail options, (error, response) ->
-          console.log error, response
           cb? error, response
     catch e
       cb? e, null
