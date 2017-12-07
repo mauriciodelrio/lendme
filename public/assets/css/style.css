@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Raleway|Roboto');
+
 a {
   color: #000000 !important;
 }
@@ -6,9 +8,12 @@ a:hover {
   color: #000000;
 }
 
-.img-circle {
+.card-img-top{
   border-radius: 50%;
-  width: 100%;
+  width: 70%;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 img {
@@ -36,8 +41,8 @@ body > nav.navbar.navbar-light.bg-light.justify-content-between > p {
 }
 
 .jumbotron {
-  background-image: url("/assets/img/classroom.jpg");
-  background-color: #17234E;
+  background-image: url("/assets/img/classroom3.jpg");
+  background-color: #aaa;
   margin-bottom: 0;
   min-height: 50%;
   background-repeat: no-repeat;
@@ -48,5 +53,158 @@ body > nav.navbar.navbar-light.bg-light.justify-content-between > p {
 }
 
 .logo {
-  width: 7em;
+  width: 5em;
+}
+
+/*JUMBOTRON*/
+
+.titulo{
+  font-family: 'Roboto', sans-serif;
+  font-size: 3rem;
+  font-weight: 300;
+  line-height: 1.2;
+  margin-top: 10rem;
+  color: #3a50a0;
+}
+
+.logo{
+  margin-left: 3em;
+}
+
+.facil{
+  text-transform: uppercase;
+  letter-spacing: 57px;
+  font-family: 'Raleway', sans-serif;
+  color: white;
+}
+
+.bajada{
+  font-size: medium;
+}
+
+.bingresa a{
+  background: content-box;
+  border-color: black;
+  border-width: 2px;
+}
+
+.bingresa a:hover{
+  border-color: black;
+  background-color: inherit;
+}
+
+.bg-grey {
+  background-color: #f6f6f6;
+}
+
+.about{
+  margin-top: 2em;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: larger;
+  letter-spacing: -1px;
+  font-weight: bold;
+}
+
+.hismot{
+  margin-top: 4em;
+  padding-bottom: 3em;
+  font-size: smaller;
+}
+
+.enc{
+  text-align: center;
+  font-size: larger;
+  font-weight: bold;
+  margin-bottom: 1em;
+}
+
+.pref{
+  margin-top: 4em;
+  margin-bottom: 4em;
+}
+
+.cart{
+  padding-top: 1em;
+  border: 1px solid rgba(58, 80, 160, .5); 
+  border-radius:0;
+  transition: box-shadow 0.5s;
+  height: 19em;
+}
+
+.cart:hover{
+  box-shadow: 5px 0px 40px rgba(0,0,0, .2);
+}
+
+hr{
+  width: 70%;
+}
+
+.logouni{
+  width: 20em;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.footer{
+  width: max-content;
+  border-top: 3px solid #3a50a0; 
+  color: white;
+}
+
+.social{
+  margin-top: 3em;
+  list-style-type: none;
+}
+
+.social li{
+  display: inline;
+}
+
+.soicon i{
+  color: #3a50a0;
+  margin-left: 1rem;
+}
+
+.lic{
+  color: #3a50a0;
+}
+
+.login{
+  background: #3a50a0;
+  width: 36vh;
+  height: 40vh;
+  color: white;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  padding-top: 2em;
+  border-radius: 3px;
+  margin-top: 2em;
+}
+
+.login a{
+  -webkit-transition: 500ms ease-out;
+  -moz-transition: 500ms ease-out;
+  -o-transition: 500ms ease-out;
+  transition: 500ms ease-out;
+  color: #2C3E50;
+}
+
+.login a:hover{
+  background: white;
+  color: #3a50a0;
+}
+
+.bingresa button{
+  color: white;
+  background-color: #3a50a0;
+  border-color: white;
+}
+
+.bingresa button:hover{
+  color: #3a50a0;
+  background-color: white;
+  border-color: white;
 }

@@ -5,93 +5,122 @@
     </div>
   </a>
 </nav>
-<div class="jumbotron jumbotron-fluid">
-  <div class="container">
-    <h1 class="display-3">Pedir espacios en tu Universidad, nunca fue tan fácil</h1>
-    <p class="lead">Con LendMe Puedes pedir espacios desde tu casa, de forma rápida, segura y confiable.</p>
-    <p class="lead">
-      <a class="btn btn-primary btn-lg" href="<%- settings.CONFIG.URL %>/signin" role="button">Comenzar</a>
-    </p>
+<div class="jumbotron">
+  <div class="container justify-content-md-center">
+    <div class="row">
+      <div class="col-md-8 offset-md-2">
+        <h1 class="titulo">Pedir espacios en tu Universidad nunca fue tan <span class="facil">fácil</span></h1>
+        <p class="bajada">Con LendMe puedes pedir espacios desde tu casa de forma rápida, segura y confiable.</p>
+        <div class="bingresa">
+          <a class="btn btn-primary" href="<%- settings.CONFIG.URL %>/signin" role="button">Comenzar</a>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
-<div class="container" >
+
+
+<div class="container-fluid bg-grey" >
   <div class="row">
     <div class="col col-sm-12">
-      <h1 class = "center">Acerca de nosotros</h1>
+      <h1 class="about">Acerca de nosotros</h1>
     </div>
   </div>
-  <div class="row">
-    <div class="col col-sm-6">
-      <h3 class = "center">Historia</h3>
+  <div class="row hismot">
+    <div class="col-md-4 offset-md-2">
+      <h3 class="enc">Historia</h3>
       <p>Somos estudiantes de la <a href="www.usach.cl">Universidad de Santiago de Chile, estudiamos Licenciatura en Ciencia de la Computación... </a> </p>
     </div>
-    <div class="col col-sm-6">
-      <h3 class = "center">Motivación</h3>
+    <div class="col-md-4 offset-md-1">
+      <h3 class="enc">Motivación</h3>
       <p>Como estudiantes entendemos que la comunidad universitaria no es algo que nace de forma espontánea. La institución muchas veces no presta atención a los detalles sobre como mejorar la calidad de vida del Universitario. <br> Nosotros como estudiantes y respondiendo a un problema recurrente y transversal desarrollamos LendMe.</p>
     </div>
   </div>
+</div>
+
+<div class="container-fluid">
   <div class="row">
     <div class = "col col-sm-12 center">
-      <h1 class ="center">Nuestro Equipo</h1>
+      <h1 class ="about">Nuestro Equipo</h1>
     </div>
   </div>
-  <div class="row">
-    <div class = "col col-sm-3">
-      <div class="card">
-        <div class = "container">
-          <img class = "img-circle" src="<%-settings.CONFIG.STATIC_URL %>/assets/img/mauro.jpg" alt="">
+  <div class="container pref">
+    <div class="row">
+      <div class="col col-sm-3">
+        <div class="cart">
+          <div class="card-deck">
+            <div class="container">
+              <img class="card-img-top" src="<%-settings.CONFIG.STATIC_URL %>/assets/img/mauro.jpg" alt="">
+            </div>
+            <div class="card-body center">
+              <p class="card-text">Mauricio Del Río</p>
+              <p class="card-text">Arquitecto - Desarrollador</p>
+            </div>
+          </div>
         </div>
-        <div class="card-body center">
-          <p class="card-text">Mauricio Del Río</p>
-          <p class="card-text">Arquitecto - Desarrollador</p>
+      </div>
+      <div class="col col-sm-3">
+        <div class="cart">
+          <div class="card-deck">
+            <div class="container">
+              <img class="card-img-top" src="<%-settings.CONFIG.STATIC_URL %>/assets/img/katty.png" alt="">
+            </div>
+            <div class="card-body center">
+              <p class="card-text">Katerine Muñoz</p>
+              <p class="card-text">Arquitecto - Desarrollador</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col col-sm-3">
+        <div class="cart">
+          <div class="card-deck">
+            <div class="container">
+              <img class="card-img-top" src="<%-settings.CONFIG.STATIC_URL %>/assets/img/ricardo.png" alt="">
+            </div>
+            <div class="card-body center">
+              <p class="card-text">Ricardo Aedo</p>
+              <p class="card-text">Arquitecto - Desarrollador</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col col-sm-3">
+        <div class="cart">
+          <div class="card-deck">
+            <div class="container">
+              <img class="card-img-top" src="<%-settings.CONFIG.STATIC_URL %>/assets/img/bryan.jpeg" alt="">
+            </div>
+            <div class="card-body center">
+              <p class="card-text">Bryan Nuñez</p>
+              <p class="card-text">Arquitecto - Desarrollador</p>
+            </div>
+          </div> 
         </div>
       </div>
     </div>
-    <div class = "col col-sm-3"> 
-      <div class="card">
-        <div class = "container">
-          <img class = "img-circle" src="<%-settings.CONFIG.STATIC_URL %>/assets/img/katty.png" alt="">
-        </div>
-        <div class="card-body center">
-          <p class="card-text">Katherine Muñoz</p>
-          <p class="card-text">Arquitecta - Desarrolladora</p>
-        </div>
-      </div>
-    </div>
-    <div class = "col col-sm-3"> 
-      <div class="card">
-        <div class = "container">
-          <img class = "img-circle" src="<%-settings.CONFIG.STATIC_URL %>/assets/img/ricardo.png" alt="">
-        </div>
-        <div class="card-body center">
-          <p class="card-text">Ricardo Aedo</p>
-          <p class="card-text">Arquitecto - Desarrollador</p>
-        </div>
-      </div>
-    </div>
-    <div class = "col col-sm-3">  
-      <div class="card">
-        <div class = "container">
-          <img class = "img-circle" src="<%-settings.CONFIG.STATIC_URL %>/assets/img/bryan.jpeg" alt="">
-        </div>
-        <div class="card-body center">
-          <p class="card-text">Bryan Nuñez</p>
-          <p class="card-text">Arquitecto - Desarrollador</p>
-        </div>
-      </div>       
+  </div>
+</div>
+
+<hr>
+<div class="container-fluid">
+  <div class="row justify-content-md-center">
+    <div class="col col-sm-12">
+      <h1 class="about">Confiaron en nosotros</h1>
     </div>
   </div>
-  <div class="row">
-    <div class="col col-sm-12 center">
-      <h1>Confiaron en nosotros</h1>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col col-sm-6 center">
-      <img src="http://www.jmc.utfsm.cl/contenidos/jmc_sede/sede_archivos/sede_imagen_corporativa/archivos/marca_1.jpg" alt="">
-    </div>
-    <div class="col col-sm-6 center">
-      <img src="http://www.mbaweekend.cl/img/logo_usach.jpg" alt="">
+  <div class="container pref">
+    <div class="row">
+      <div class="col col-md-6 col-sm-12">
+        <div class="logouni">
+          <img src="<%-settings.CONFIG.STATIC_URL %> ../assets/img/usmcolor.jpg" alt="">
+        </div>
+      </div>
+      <div class="col col-md-6 col-sm-12">
+        <div class="logouni">
+          <img src="../assets/img/usachcolor.png" alt="">
+        </div>
+      </div>
     </div>
   </div>
 </div>
