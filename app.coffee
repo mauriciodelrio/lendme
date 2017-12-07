@@ -37,6 +37,11 @@ ROUTES =
   dashboard: require './src/server/routes/dashboard'
   request: require './src/server/routes/request'
   new_request: require './src/server/routes/new_request'
+  all_request: require './src/server/routes/all_request'
+  t_space: require './src/server/routes/t_space'
+  t_space_new: require './src/server/routes/t_space_new'
+  t_space_update: require './src/server/routes/t_space_update'
+  t_space_delete: require './src/server/routes/t_space_delete'
 
 #API
 API = 
@@ -49,6 +54,10 @@ API =
   type_space: require('./src/server/api/request')().all_type_space
   type_request: require('./src/server/api/request')().all_type_request
   options_by_space: require('./src/server/api/request')().all_options_by_space
+  t_space: require('./src/server/api/t_space')().get_all
+  t_space_new: require('./src/server/api/t_space')().new
+  t_space_update: require('./src/server/api/t_space')().update
+  t_space_delete: require('./src/server/api/t_space')().delete
 
 # view engine setup
 app.set 'CONFIG', CONFIG
@@ -71,10 +80,17 @@ app.get '/', ROUTES.index
 app.get '/users', ROUTES.users
 app.get '/signin', ROUTES.signin
 app.get '/dashboard', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO], ROUTES.dashboard
+app.get '/admin', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO], ROUTES.dashboard
+app.get '/editor', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO], ROUTES.dashboard
 app.get '/dashboard/request', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO, MIDDLEWARE.REQUEST_INFO], ROUTES.request
 app.get '/dashboard/request/new', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO], ROUTES.new_request
-#ROUTING API
+app.get '/dashboard/all_request', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO], ROUTES.all_request
+app.get '/dashboard/t_space', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO], ROUTES.t_space
+app.get '/dashboard/t_space/new', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO], ROUTES.t_space_new
+app.get '/dashboard/t_space/update', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO], ROUTES.t_space_update
+app.get '/dashboard/t_space/delete', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO], ROUTES.t_space_delete
 
+#ROUTING API
 app.get '/api/users', API.users
 app.post '/api/signin', API.signin
 app.get '/api/users/:user_id', API.user
@@ -84,7 +100,10 @@ app.get '/api/request/interval', API.time_interval
 app.get '/api/request/type_space', API.type_space
 app.get '/api/request/type_request', API.type_request
 app.get '/api/request/options', API.options_by_space
-
+app.get '/api/t_space', API.t_space
+app.post '/api/t_space/new', API.t_space_new
+app.post '/api/t_space/update', API.t_space_update
+app.post '/api/t_space/delete', API.t_space_delete
 # catch 404 and forward to error handler
 app.get '*', ROUTES.err404
 

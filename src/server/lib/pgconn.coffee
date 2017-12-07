@@ -34,15 +34,19 @@ class User
     new_pass
 
   get_user_by_id: (client, params, cb) ->
-    query = client.query "SELECT * FROM public.\"User\" as U WHERE U.user_id = '#{params}'", (err, res) ->
-      if not err
+    query = client.query "SELECT * FROM public.\"User\" as U INNER JOIN public.\"Community\" AS C ON U.user_id = C.user_id WHERE U.user_id = '#{params}'", (err, res) ->
+      if not err and res.rows.length > 0
         cb? res.rows
       else
-        console.error err
-        cb? err
+        query = client.query "SELECT * FROM public.\"User\" as U INNER JOIN public.\"Administrator\" as A ON U.user_id = A.user_id WHERE U.user_id = '#{params}'", (err, res) ->
+          if not err
+            cb? res.rows
+          else
+            console.error err
+            cb? err
 
   get_user_by_mail: (client, params, cb) ->
-    query = client.query "SELECT * FROM public.\"User\" as U INNER JOIN public.\"Community\" as C ON U.user_id = C.user_id INNER JOIN public.\"Institution\" as I ON U.ins_id = I.ins_id WHERE U.user_mail = '#{params.mail}' AND U.user_password = '#{params.password}'", (err, res) ->
+    query = client.query "SELECT * FROM public.\"User\" as U INNER JOIN public.\"Institution\" as I ON U.ins_id = I.ins_id WHERE U.user_mail = '#{params.mail}' AND U.user_password = '#{params.password}'", (err, res) ->
       if not err
         cb? res.rows
       else
@@ -277,30 +281,42 @@ class Space
       ((charset) -> charset.charAt Math.floor(Math.random() * charset.length)) 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0root789'
     ).join ''
 
+  get_all_type_space: (client, ins_id, cb) ->
+    query = client.query "SELECT * FROM public.\"Type_space\" WHERE ins_id = '#{ins_id}' AND type_spa_state = '#{true}' ORDER BY type_spa_id ASC ", (err, res) ->
+      if not err
+        cb? {status: 'OK', data: res.rows}
+      else
+        console.error err
+        cb? {status: 'ERROR', data: err}
+
   create_type_space: (client, params, cb) ->
     id = crypto.createHash('md5').update(this.hash()).digest 'hex' #query que revisa el numero de solicitudes pendientes que tiene un usuario (quizas usar un if para ver si es necesario hacerlo?)
     date_now = moment().format("YYYY-MM-DD HH:mm")
-    query = client.query "INSERT INTO public.\"Type_space\"(type_spa_id, ins_id, type_spa_name, type_spa_date) VALUES ('#{id}','#{params.ins_id}','#{params_type_spa_name}','#{date_now}') RETURNING *", (err,res) ->
+    query = client.query "INSERT INTO public.\"Type_space\"(type_spa_id, ins_id, type_spa_name, type_spa_date, type_spa_state) VALUES ('#{id}','#{params.ins_id}','#{params.type_spa_name}','#{date_now}', '#{true}') RETURNING *", (err,res) ->
       if not err
-        cb? res.rows[0]
+        cb? {status: 'OK', data: res.rows[0]}
       else
         console.error err
+        cb? {status: 'ERROR', data: err}
   
   update_type_space: (client, params, cb) ->
-    query = client.query "UPDATE public.\"Type_space\" type_spa_name='#{params.type_spa_name}' WHERE type_spa_id = '#{params.type_spa_id}' RETURNING *", (err,res) ->
+    query = client.query "UPDATE public.\"Type_space\" SET type_spa_name = '#{params.type_spa_name}' WHERE type_spa_id = '#{params.type_spa_id}' RETURNING *", (err,res) ->
       if not err
         cb? {status: 'OK', data: res.rows[0]}
       else
         console.error err
+        cb? {status: 'ERROR', data: err}
   
   delete_type_space: (client, params, cb) ->
-    query = client.query "UPDATE public.\"Type_space\" type_spa_state='#{params.type_spa_state}' WHERE type_spa_id = '#{params.type_spa_id}' RETURNING *", (err,res) ->
+    query = client.query "UPDATE public.\"Type_space\" SET type_spa_state='#{false}' WHERE type_spa_id = '#{params.type_spa_id}' RETURNING *", (err,res) ->
       if not err
         cb? {status: 'OK', data: res.rows[0]}
       else
         console.error err
+        cb? {status: 'ERROR', data: err}
 
 module.exports =
   User: User
   Request: Request
+  Schedule: Schedule
   Space: Space

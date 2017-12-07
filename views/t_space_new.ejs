@@ -1,0 +1,29 @@
+<%- include partials/menu_bar.ejs %>
+<div class = "row">
+  <div class = "col col-sm-12 center">
+    <h1>Nuevo tipo espacio</h1>
+  </div>
+</div>
+<div class = "row">
+  <div class = "col col-sm-12">
+    <form id="new_t_space">
+      <div class="row">
+        <div class = "col col-sm-6">
+          <div class="form-group">
+            <label for="exampleFormControlTextarea1">Nombre</label>
+            <input class="form-control" name="type_spa_name"></input>
+          </div>
+        </div>
+        <div class= "col col-sm-6">
+          <button id="conf_button" type="submit" class="btn btn-primary" name="action">Añadir</button>
+        </div>
+      </div>
+    </form>
+  </div>
+<%- include partials/footer.ejs %>
+<script src="<%- settings.CONFIG.STATIC_URL %>/assets/js/t_space_new.js"></script>
+<script>
+  jQuery(function(){
+    new window.tNew()
+  })
+</script>

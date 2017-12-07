@@ -1,0 +1,19 @@
+<%- include partials/menu_bar.ejs %>
+<div class="container panel">
+  <div class="row">
+    <div class="col col-sm-12 center">
+      <h1>Panel de Administrador</h1>
+      <h4>Bienvenid@ <%- USER.user_name %> Selecciona una de las siguientes opciones:</h4>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col col-sm-6 center">
+      <h3><a href="dashboard/all_request">Ver historico solicitudes</a></h3>
+    </div>
+    <div class="col col-sm-6 center">
+      <h3><a href="dashboard/t_space">Administrar tipo espacio</a></h3>
+    </div>
+  </div>
+</div>
+
+<%- include partials/footer.ejs %>
