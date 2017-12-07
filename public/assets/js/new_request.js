@@ -100,6 +100,7 @@
       e.preventDefault();
       opts = $(e.currentTarget).serialize();
       this.req_params = this.req_params + "&" + opts;
+      console.log(this.req_params);
       return $.post('/api/request', this.req_params, function(data) {
         if (data.status === 'OK' && (data.data != null)) {
           alert(data.data);

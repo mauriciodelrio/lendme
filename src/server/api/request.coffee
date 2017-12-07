@@ -4,7 +4,6 @@ Mail = new (require('../lib/mail'))()
 Cache = new (require('../lib/cache'))()
 _ = require 'lodash'
 moment = require 'moment'
-async = require 'async'
 module.exports = () ->
   send: ((req, res) ->
     Cache.get "user:#{req.session.user_id}", (cache_user) ->
@@ -12,13 +11,14 @@ module.exports = () ->
         params =
           user_id: cache_user.user_id
           ins_id: cache_user.ins_id
-          date: "#{req.body.day}-#{req.body.month}-#{moment().year()}"
+          date: "#{req.body.day}-#{req.body.month}-#{moment().year()} 00:00:00"
           time_id: req.body.time_interval or ''
           req_description: req.body.description or ''
           type_req_id: req.body.type_sol or ''
           req_dependant: if req.body.dependant? then true else false
           type_state_req_id: '2'
           spa_id: req.body.spa_id or ''
+          type_com_id: cache_user.type_com_id
         Request.connect (client) =>
           Request.new_request client, params, (resp) =>
             if resp.status is 'OK' and resp.data?
@@ -38,7 +38,7 @@ module.exports = () ->
               if contador = size_body - 1
                 res.send status: 'OK', data: 'Se ha generado solicitud exitosamente, verifica tu mail para más información'
             else
-              res.send status: 'ERROR', data: 'No se ha podido crear el nuevo espacio, intente más tarde'
+              res.send status: 'ERROR', data: resp.data
       else
         User.connect (client) ->
           User.get_user_by_id client, req.session.user_id, (user) ->
@@ -53,6 +53,7 @@ module.exports = () ->
                 dependant: if req.body.dependant then req.body.dependant else false
                 type_state_req_id: '2'
                 spa_id: req.body.spa_id
+                type_com_id: cache_user.type_com_id
               Request.connect (client) =>
                 Request.new_request client, params, (resp) =>
                   if resp.status is 'OK' and resp.data?
@@ -72,7 +73,7 @@ module.exports = () ->
                     if contador = size_body - 1
                       res.send status: 'OK', data: 'Se ha generado solicitud exitosamente, verifica tu mail para más información'
                   else
-                    res.send status: 'ERROR', data: 'No se ha podido crear el nuevo espacio, intente más tarde'
+                    res.send status: 'ERROR', data: resp.data
 
 
   )
@@ -84,7 +85,7 @@ module.exports = () ->
             type_spa_id: req.query.type_spa
             time_id: req.query.time_interval
             capacity: req.query.capacity
-            sch_date: "#{req.query.day}-#{req.query.month}-#{moment().year()}"
+            sch_date: "#{req.query.day}-#{req.query.month}-#{moment().year()} 00:00:00"
             recurrent: if req.query.recurrent? then req.query.recurrent else false
             ins_id: cache_user.ins_id
           

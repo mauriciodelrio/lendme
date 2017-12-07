@@ -156,12 +156,12 @@ class Request
       
   get_request_by_state: (client, params, cb) ->
     #busca todas las request con cierto estado y de cierta institucion (params contiene el id de ins y el id del estado) 
-    query = client.query "SELECT * FROM public.\"Request\" AS R WHERE R.state_req_id='#{params.state_req_id}' AND R.ins_id = '#{params.ins_id}'  ", (err, res) ->
+    query = client.query "SELECT * FROM public.\"Request\" AS R INNER JOIN public.\"Type_state_req\" as T ON R.type_state_req_id = T.type_state_req_id WHERE R.type_state_req_id='#{params.state_req_id}' AND R.ins_id = '#{params.ins_id}'", (err, res) ->
       if not err
-        cb? res.rows
+        cb? {status: 'OK', data: res.rows}
       else
         console.error err
-        cb? err
+        cb? {status: 'ERROR', data: err}
 
   min_capacity: (solicited) ->
     ret = (solicited*100)/30
@@ -181,7 +181,7 @@ class Request
     id = crypto.createHash('md5').update(this.hash()).digest 'hex' #query que agrega un schedule
     query = client.query "SELECT COALESCE ((SELECT COUNT(user_id) FROM \"Request\" WHERE user_id ='#{params.user_id}' AND type_state_req_id = '2' GROUP BY user_id),0)", (err, res) =>
       if not err
-        if res.rows.length > 5 && params.type_com_id = '1' #checkeo de si supera el maximo de solicitudes 
+        if res.rows[0].coalesce > 5 && params.type_com_id = '1' #checkeo de si supera el maximo de solicitudes 
           #Notificar
           cb? {status: 'ERROR', data: 'Ha superado el máximo de solicitudes'}
         else      
@@ -205,43 +205,48 @@ class Request
         console.error err
         cb? {status: 'ERROR', data: err}
 
-  change_request_dep:(client, params, cb) -> #query encargada de cambiar el estado de una solicitud
-    query = client.query "UPDATE public.\"Request\" SET 'state_req_id = '#{params.state_req_id}' WHERE req_id = '#{params.req_id}'" , (err, res) ->
+  change_request_dep:(client, params, cb) => #query encargada de cambiar el estado de una solicitud
+    query = client.query "UPDATE public.\"Request\" SET type_state_req_id='#{params.state_req_id}' WHERE req_id = '#{params.req_id}'" , (err, res) =>
       if not err
+        console.log '1'
         if params.state_req_id = '1' # 1 (de momento) significa que aprueba la solicitud lo que hace una query para sacar los datos necesarios para agregar un schedule
-          query = client.query "SELECT * From public.\"Request\" AS R INNER JOIN public.\"Community\" AS C ON R.user_id = C.user_id INNER JOIN public.\"Space\" AS S ON S.spa_id = R.spa_id WHERE R.req_id = '#{params.req_id}'", (err, res) ->
-          if not err
-            params2 =  
-              adm_id: params.adm_id
-              sch_date: res.rows[0].req_date
-              sch_capacity: res.rows[0].spa_capacity
-              type_sch_id: params.type_sch_id
-              com_id: res.rows[0].com_id
-              time_id: res.rows[0].time_id
-              spa_id: res.rows[0].spa_id
-              ins_id: res.rows[0].ins_id
-            this.req_to_sch client , params2 , (resp) -> ## es necesario escribir algo mas aca?
-              if resp
-                cb? resp
-              else
-                cb? "Error al crear registro"
-          else
-            console.error err
-            cb? err
+          query = client.query "SELECT * From public.\"Request\" AS R INNER JOIN public.\"Community\" AS C ON R.user_id = C.user_id INNER JOIN public.\"Space\" AS S ON S.spa_id = R.spa_id WHERE R.req_id = '#{params.req_id}'", (err, res) =>
+            if not err
+              console.log '2'
+              params2 =  
+                adm_id: params.adm_id
+                sch_date: moment(res.rows[0].req_date).format("YYYY-MM-DD")
+                sch_capacity: res.rows[0].spa_capacity
+                type_sch_id: res.rows[0].type_state_req_id
+                com_id: res.rows[0].com_id
+                time_id: res.rows[0].time_id
+                spa_id: res.rows[0].spa_id
+                ins_id: res.rows[0].ins_id
+                description: params.description
+              this.req_to_sch client , params2 , (resp) -> ## es necesario escribir algo mas aca?
+                if resp.status is 'OK' and resp.data
+                  console.log '3'
+                  cb? {status: 'OK', data: resp.data}
+                else
+                  cb? {status: 'ERROR', data: "Error al crear registro"}
+            else
+              console.error err
+              cb? {status: 'ERROR', data: "Error al encontrar la solicitud"}
         else
-          cb? "0"
+          cb? {status: 'OK', t: "R", data: res.rows.user_id}
       else
         console.error err
-        cb? err
+        cb? {status: 'ERROR', data: err}
 
   req_to_sch: (client, params, cb) ->
     id = crypto.createHash('md5').update(this.hash()).digest 'hex' #query que agrega un schedule
-    query = client.query "INSERT INTO public.\"Schedule\" (sch_id, adm_id, com_id, sch_date, time_id, spa_id, sch_description, type_sch_id, sch_capacity, ins_id, sch_state) VALUES ('#{id},'#{params.adm_id}','#{params.com_id}','#{params.sch_date}','#{params.time_id}','#{params.spa_id}','#{params.type_sch_id}','#{params.sch_capacity}','#{params.ins_id}',#{true}) RETURNING *", (err, res) -> 
+    console.log params
+    query = client.query "INSERT INTO public.\"Schedule\" (sch_id, adm_id, com_id, sch_date, time_id, spa_id, sch_description, type_sch_id, sch_capacity, ins_id, sch_state) VALUES ('#{id}','#{params.adm_id}','#{params.com_id}','#{params.sch_date}','#{params.time_id}','#{params.spa_id}','#{params.description}', '#{params.type_sch_id}','#{params.sch_capacity}','#{params.ins_id}',#{true}) RETURNING *", (err, res) -> 
       if not err
-        cb? res.rows
+        cb? {status: 'OK', data: res.rows}
       else
         console.error err
-        cb? err
+        cb? {status: 'ERROR', data: err}
 
 class Schedule
   constructor: () ->

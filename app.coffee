@@ -42,6 +42,7 @@ ROUTES =
   t_space_new: require './src/server/routes/t_space_new'
   t_space_update: require './src/server/routes/t_space_update'
   t_space_delete: require './src/server/routes/t_space_delete'
+  request_change: require './src/server/routes/request_change'
 
 #API
 API = 
@@ -49,6 +50,8 @@ API =
   user: require('./src/server/api/user')().user_id
   signin: require('./src/server/api/user')().signin
   request: require('./src/server/api/request')().send
+  request_pending: require('./src/server/api/schedule')().load_pending_requests
+  req_change: require('./src/server/api/schedule')().change_request
   req_spaces: require('./src/server/api/request')().filter_spaces
   time_interval: require('./src/server/api/request')().all_time_interval
   type_space: require('./src/server/api/request')().all_type_space
@@ -89,12 +92,15 @@ app.get '/dashboard/t_space', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO], ROUTES.t_
 app.get '/dashboard/t_space/new', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO], ROUTES.t_space_new
 app.get '/dashboard/t_space/update', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO], ROUTES.t_space_update
 app.get '/dashboard/t_space/delete', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO], ROUTES.t_space_delete
+app.get '/dashboard/request/change', [MIDDLEWARE.AUTH, MIDDLEWARE.USER_INFO], ROUTES.request_change
 
 #ROUTING API
 app.get '/api/users', API.users
 app.post '/api/signin', API.signin
 app.get '/api/users/:user_id', API.user
 app.post '/api/request', API.request
+app.post '/api/request/change', API.req_change
+app.get '/api/request/pending', API.request_pending
 app.get '/api/request/spaces', API.req_spaces
 app.get '/api/request/interval', API.time_interval
 app.get '/api/request/type_space', API.type_space

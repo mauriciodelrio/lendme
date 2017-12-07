@@ -58,6 +58,7 @@ class NewRequest
     e.preventDefault()
     opts = $(e.currentTarget).serialize()
     @req_params = "#{@req_params}&#{opts}"
+    console.log @req_params
     $.post '/api/request', @req_params, (data) ->
       if data.status is 'OK' and data.data?
         alert data.data

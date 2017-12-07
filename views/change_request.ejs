@@ -1,0 +1,82 @@
+<%- include partials/menu_bar.ejs %>
+<div class = 'container panel'>
+  <div class = "center">
+    <h1>Cambiar estado de solicitud</h1>
+  </div>
+  <div class='row'>
+    <div class='col col-sm-12'>
+      <table class = "table">
+        <thead>
+          <tr>
+            <th scope = "col">Descripción</th>
+            <th scope = "col">Fecha</th>
+            <th scope = "col">Estado</th>
+            <th scope = "col">Acción</th>
+          </tr>
+        </thead>
+        <tbody class= "request-results">
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class ="row">
+    <div class="col col-sm-12 center">
+      <h1>Solicitud seleccionada</h1>
+    </div>
+  </div>
+  <div class="row">
+    <table class = "table">
+      <thead>
+        <tr>
+          <th scope = "col">Descripción</th>
+          <th scope = "col">Fecha</th>
+          <th scope = "col">Estado</th>
+          <th scope = "col">Acción</th>
+        </tr>
+      </thead>
+      <tbody class= "request-selected">
+      </tbody>
+    </table>
+  </div>
+  <div class="row">
+    <div class="col col-sm-12">
+      <form id="c_request">
+        <div class="row">
+          <div class = "col col-sm-8">
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Motivo</label>
+              <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" name="description"></textarea>
+            </div>
+          </div>
+          <div class= "col col-sm-2">
+            <div class="form-check form-check-inline center">
+              <label class="form-check-label">Aprobar</label>
+              <input class="" type="checkbox" name="state">
+            </div>
+          </div>
+          <div class= "col col-sm-2">
+            <button id="conf_button" type="submit" class="btn btn-primary" name="action">Enviar</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+<%- include partials/footer.ejs %>
+
+
+<script id="req_choose" type="text/x-jquery-tmpl">
+  <tr id="${id}">
+    <th>${description}</th>
+    <th>${date}</th>
+    <th>${state}</th>
+    <th><a id="selected-${id}" class="sel_req" href="#"><i class="fa fa-check" aria-hidden="true"></i>Elegir solicitud</a></th>
+  </tr>
+</script>
+
+<script src="<%- settings.CONFIG.STATIC_URL %>/assets/js/change_request.js"></script>
+<script>
+  jQuery(function(){
+    new window.cRequest()
+  })
+</script>
