@@ -40,7 +40,7 @@
       return $.post('/api/t_space/delete', params, (function(_this) {
         return function(data) {
           if (data.status === 'OK' && data.data) {
-            return alert('Tipo espacio ingresado con éxito');
+            return alert('Tipo espacio borrado con éxito');
           } else {
             return alert('Ocurrió un error, intenta más tarde');
           }
