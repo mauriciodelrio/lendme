@@ -209,7 +209,7 @@ class Request
     query = client.query "UPDATE public.\"Request\" SET type_state_req_id='#{params.state_req_id}' WHERE req_id = '#{params.req_id}'" , (err, res) =>
       if not err
         console.log '1'
-        if params.state_req_id = '1' # 1 (de momento) significa que aprueba la solicitud lo que hace una query para sacar los datos necesarios para agregar un schedule
+        if params.state_req_id is '1' # 1 (de momento) significa que aprueba la solicitud lo que hace una query para sacar los datos necesarios para agregar un schedule
           query = client.query "SELECT * From public.\"Request\" AS R INNER JOIN public.\"Community\" AS C ON R.user_id = C.user_id INNER JOIN public.\"Space\" AS S ON S.spa_id = R.spa_id WHERE R.req_id = '#{params.req_id}'", (err, res) =>
             if not err
               console.log '2'
@@ -233,7 +233,7 @@ class Request
               console.error err
               cb? {status: 'ERROR', data: "Error al encontrar la solicitud"}
         else
-          cb? {status: 'OK', t: "R", data: res.rows.user_id}
+          cb? {status: 'OK', t: "R", data: "Solicitud Modificada con éxito"}
       else
         console.error err
         cb? {status: 'ERROR', data: err}

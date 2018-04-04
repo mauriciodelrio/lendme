@@ -1,32 +1,35 @@
 <%- include partials/menu_bar.ejs %>
-<div class = "row">
-  <div class = "col col-sm-12 center">
-    <h1>Modificar tipo espacio</h1>
+<div class="container">  
+  <div class = "row">
+    <div class = "col col-sm-12 center">
+      <h1>Modificar tipo espacio</h1>
+    </div>
   </div>
+  <div class = "row">
+    <div class = "col col-sm-12 center">
+      <form id="update_t_space">
+        <div class="row">
+          <div class = "col col-sm-4">
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">Nombre</label>
+              <input class="form-control" name="type_spa_name"></input>
+            </div>
+          </div>
+          <div class= "col col-sm-4">
+            <div class="form-group">
+              <label for="exampleFormControlSelect1">tipo de solicitud</label>
+              <select class="form-control" id="t_space_up" name="type_spa_id" >
+              </select>
+            </div>
+          </div>
+          <div class= "col col-sm-4">
+            <button id="conf_button" type="submit" class="btn btn-primary" name="action">Modificar</button>
+          </div>
+        </div>
+      </form>
+    </div>
 </div>
-<div class = "row">
-  <div class = "col col-sm-12">
-    <form id="update_t_space">
-      <div class="row">
-        <div class = "col col-sm-4">
-          <div class="form-group">
-            <label for="exampleFormControlTextarea1">Nombre</label>
-            <input class="form-control" name="type_spa_name"></input>
-          </div>
-        </div>
-        <div class= "col col-sm-4">
-          <div class="form-group">
-            <label for="exampleFormControlSelect1">tipo de solicitud</label>
-            <select class="form-control" id="t_space_up" name="type_spa_id" >
-            </select>
-          </div>
-        </div>
-        <div class= "col col-sm-4">
-          <button id="conf_button" type="submit" class="btn btn-primary" name="action">Modificar</button>
-        </div>
-      </div>
-    </form>
-  </div>
+</div>
   <%- include partials/footer.ejs %>
 <script id="opt_t_spa" type="text/x-jquery-tmpl">
   <option value="${id}">${name}</option>

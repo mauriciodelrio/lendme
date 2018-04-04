@@ -41,7 +41,7 @@ module.exports = () ->
         params=
           adm_id: cache_user.adm_id
           req_id:req.body.req_id
-          state_req_id: if req.body.state then '1' else '3'
+          state_req_id: if req.body.state? then '1' else '3'
           description: req.body.description
         console.log cache_user
         console.log params

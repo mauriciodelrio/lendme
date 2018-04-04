@@ -1,0 +1,1355 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 9.5.10
+-- Dumped by pg_dump version 9.5.10
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SET check_function_bodies = false;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: 
+--
+
+CREATE EXTENSION IF NOT EXISTS plpgsql WITH SCHEMA pg_catalog;
+
+
+--
+-- Name: EXTENSION plpgsql; Type: COMMENT; Schema: -; Owner: 
+--
+
+COMMENT ON EXTENSION plpgsql IS 'PL/pgSQL procedural language';
+
+
+SET search_path = public, pg_catalog;
+
+SET default_tablespace = '';
+
+SET default_with_oids = false;
+
+--
+-- Name: Administrator; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Administrator" (
+    adm_id character varying(32) NOT NULL,
+    type_admin_id character varying(32) NOT NULL,
+    adm_date timestamp(6) without time zone NOT NULL,
+    user_id character varying(32) NOT NULL
+);
+
+
+ALTER TABLE "Administrator" OWNER TO postgres;
+
+--
+-- Name: Community; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Community" (
+    com_id character varying(32) NOT NULL,
+    type_com_id character varying(32) NOT NULL,
+    com_date timestamp(6) without time zone NOT NULL,
+    user_id character varying(32) NOT NULL
+);
+
+
+ALTER TABLE "Community" OWNER TO postgres;
+
+--
+-- Name: Institution; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Institution" (
+    ins_id character varying(32) NOT NULL,
+    ins_name text NOT NULL,
+    ins_img text NOT NULL,
+    ins_date timestamp(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE "Institution" OWNER TO postgres;
+
+--
+-- Name: Option; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Option" (
+    opt_id character varying(32) NOT NULL,
+    ins_id character varying(32) NOT NULL,
+    opt_name text NOT NULL,
+    opt_date timestamp(6) without time zone NOT NULL,
+    opt_state boolean NOT NULL
+);
+
+
+ALTER TABLE "Option" OWNER TO postgres;
+
+--
+-- Name: Request; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Request" (
+    req_id character varying(32) NOT NULL,
+    ins_id character varying(32) NOT NULL,
+    user_id character varying(32) NOT NULL,
+    req_date timestamp(6) without time zone NOT NULL,
+    time_id character varying(32) NOT NULL,
+    req_description text NOT NULL,
+    type_req_id character varying(32) NOT NULL,
+    req_dependent boolean NOT NULL,
+    spa_id character varying(32) NOT NULL,
+    type_state_req_id character varying(32) NOT NULL
+);
+
+
+ALTER TABLE "Request" OWNER TO postgres;
+
+--
+-- Name: Request_option; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Request_option" (
+    req_opt_id character varying(32) NOT NULL,
+    req_id character varying(32) NOT NULL,
+    opt_id character varying(32) NOT NULL,
+    req_opt_date timestamp(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE "Request_option" OWNER TO postgres;
+
+--
+-- Name: Schedule; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Schedule" (
+    sch_id character varying(32) NOT NULL,
+    adm_id character varying(32) NOT NULL,
+    com_id character varying(32) NOT NULL,
+    sch_date timestamp(6) with time zone NOT NULL,
+    time_id character varying(32) NOT NULL,
+    spa_id character varying(32) NOT NULL,
+    sch_description text NOT NULL,
+    type_sch_id character varying(32) NOT NULL,
+    sch_capacity integer NOT NULL,
+    ins_id character varying(32) NOT NULL,
+    sch_state boolean NOT NULL
+);
+
+
+ALTER TABLE "Schedule" OWNER TO postgres;
+
+--
+-- Name: Schedule_option; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Schedule_option" (
+    sch_opt_id character varying(32) NOT NULL,
+    sch_id character varying(32) NOT NULL,
+    opt_id character varying(32) NOT NULL,
+    sch_opt_date timestamp(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE "Schedule_option" OWNER TO postgres;
+
+--
+-- Name: Space; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Space" (
+    spa_id character varying(32) NOT NULL,
+    ins_id character varying(32) NOT NULL,
+    spa_name text NOT NULL,
+    spa_date timestamp(6) without time zone NOT NULL,
+    spa_reference text,
+    spa_description text,
+    type_spa_id character varying(32) NOT NULL,
+    spa_capacity integer NOT NULL,
+    spa_state boolean NOT NULL
+);
+
+
+ALTER TABLE "Space" OWNER TO postgres;
+
+--
+-- Name: Space_option; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Space_option" (
+    spa_opt_id character varying(32) NOT NULL,
+    spa_id character varying(32) NOT NULL,
+    opt_id character varying(32) NOT NULL,
+    spa_opt_date timestamp(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE "Space_option" OWNER TO postgres;
+
+--
+-- Name: Space_time; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Space_time" (
+    spa_time_id character varying(32) NOT NULL,
+    spa_id character varying(32) NOT NULL,
+    time_id character varying(32) NOT NULL,
+    spa_time_date timestamp(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE "Space_time" OWNER TO postgres;
+
+--
+-- Name: Time_interval; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Time_interval" (
+    time_id character varying(32) NOT NULL,
+    ins_id character varying(32) NOT NULL,
+    time_name text NOT NULL,
+    time_state boolean NOT NULL,
+    time_begin time(6) without time zone NOT NULL,
+    time_end time(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE "Time_interval" OWNER TO postgres;
+
+--
+-- Name: Type_administrator; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Type_administrator" (
+    type_adm_id character varying(32) NOT NULL,
+    ins_id character varying(32) NOT NULL,
+    type_adm_date timestamp(6) without time zone NOT NULL,
+    type_adm_name text NOT NULL
+);
+
+
+ALTER TABLE "Type_administrator" OWNER TO postgres;
+
+--
+-- Name: Type_community; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Type_community" (
+    type_com_id character varying(32) NOT NULL,
+    ins_id character varying(32) NOT NULL,
+    type_com_date timestamp(6) without time zone NOT NULL,
+    type_com_name text NOT NULL
+);
+
+
+ALTER TABLE "Type_community" OWNER TO postgres;
+
+--
+-- Name: Type_request; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Type_request" (
+    type_req_id character varying(32) NOT NULL,
+    ins_id character varying(32) NOT NULL,
+    type_req_name text NOT NULL,
+    type_req_date timestamp(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE "Type_request" OWNER TO postgres;
+
+--
+-- Name: Type_schedule; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Type_schedule" (
+    ins_id character varying(32) NOT NULL,
+    type_sch_name text NOT NULL,
+    type_sch_id character varying(32) NOT NULL,
+    type_sch_date timestamp(6) without time zone NOT NULL
+);
+
+
+ALTER TABLE "Type_schedule" OWNER TO postgres;
+
+--
+-- Name: Type_space; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Type_space" (
+    type_spa_id character varying(32) NOT NULL,
+    ins_id character varying(32) NOT NULL,
+    type_spa_name text NOT NULL,
+    type_spa_date timestamp(6) without time zone NOT NULL,
+    type_spa_state boolean NOT NULL
+);
+
+
+ALTER TABLE "Type_space" OWNER TO postgres;
+
+--
+-- Name: Type_state_req; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "Type_state_req" (
+    type_state_req_id character varying(32) NOT NULL,
+    type_state_req_name text NOT NULL,
+    type_state_req_date timestamp(6) without time zone NOT NULL,
+    type_state_req_state boolean NOT NULL
+);
+
+
+ALTER TABLE "Type_state_req" OWNER TO postgres;
+
+--
+-- Name: User; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "User" (
+    user_id character varying(32) NOT NULL,
+    ins_id character varying(32) NOT NULL,
+    user_name text NOT NULL,
+    user_lastname text NOT NULL,
+    user_password character varying(32) NOT NULL,
+    user_mail text NOT NULL,
+    user_date timestamp(6) without time zone NOT NULL,
+    user_state boolean NOT NULL
+);
+
+
+ALTER TABLE "User" OWNER TO postgres;
+
+--
+-- Name: User_session; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE "User_session" (
+    ses_id character varying(32) NOT NULL,
+    user_id character varying(32) NOT NULL,
+    ses_date timestamp(6) with time zone NOT NULL,
+    ses_expiration timestamp(6) with time zone NOT NULL,
+    ses_state boolean NOT NULL
+);
+
+
+ALTER TABLE "User_session" OWNER TO postgres;
+
+--
+-- Name: reporte_sesiones; Type: TABLE; Schema: public; Owner: postgres
+--
+
+CREATE TABLE reporte_sesiones (
+    user_id character varying(32),
+    user_name text,
+    count bigint
+);
+
+ALTER TABLE ONLY reporte_sesiones REPLICA IDENTITY NOTHING;
+
+
+ALTER TABLE reporte_sesiones OWNER TO postgres;
+
+--
+-- Data for Name: Administrator; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Administrator" (adm_id, type_admin_id, adm_date, user_id) FROM stdin;
+1	1	1999-09-19 00:00:00	2
+2	1	1999-09-19 00:00:00	5
+3	2	1999-09-19 00:00:00	6
+\.
+
+
+--
+-- Data for Name: Community; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Community" (com_id, type_com_id, com_date, user_id) FROM stdin;
+1	1	1999-09-19 00:00:00	1
+2	1	1999-09-19 00:00:00	3
+3	1	1999-09-19 00:00:00	4
+\.
+
+
+--
+-- Data for Name: Institution; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Institution" (ins_id, ins_name, ins_img, ins_date) FROM stdin;
+1	usach	www.google.cl	1999-08-01 00:00:00
+2	UTFSM	www.facebook.com	1999-08-11 00:00:00
+\.
+
+
+--
+-- Data for Name: Option; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Option" (opt_id, ins_id, opt_name, opt_date, opt_state) FROM stdin;
+1	1	proyector	1999-09-19 00:00:00	t
+2	1	aire acondicionado	1999-09-19 00:00:00	t
+4	2	acceso HDMI	1999-09-19 00:00:00	t
+3	2	acceso discpacitados	1999-09-19 00:00:00	t
+5	2	proyector	1999-09-19 00:00:00	t
+6	1	pizarra inteligente	1999-09-19 00:00:00	t
+\.
+
+
+--
+-- Data for Name: Request; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Request" (req_id, ins_id, user_id, req_date, time_id, req_description, type_req_id, req_dependent, spa_id, type_state_req_id) FROM stdin;
+5939dc5e6edcbb4bbe64ea746d20f92b	1	1	2017-12-10 00:00:00	1	prueba 3	2	f	1	1
+e9bbc27718dd19e9659216eb9859df9d	1	1	2017-12-12 00:00:00	1	prueba 6	2	f	1	1
+682184223c7bd99864e6f6b14ede46f1	1	1	2017-12-12 00:00:00	1	prueba 5	2	f	1	1
+5b8a58ca6f0c729c03d0057d403dc470	1	1	2017-12-12 00:00:00	1	prueba 4	2	f	1	1
+3d349eb911b308be22c3e00b1008a25a	1	1	2017-12-12 00:00:00	1	prueba 2	2	f	1	1
+e921a9e32e561b36adaaeed21e93a977	1	1	2017-12-12 00:00:00	1	prueba 1	2	f	1	1
+afd070ed218333777c925c42ad8d42a4	1	1	2017-12-12 00:00:00	1	uno	2	f	1	1
+ed3417a5825b908b6fd9f65616bf89cb	1	1	2017-10-10 00:00:00	1		2	f	1	1
+f5a05c2d7d2f7c5aacc54d2d1ee4d548	1	1	2017-10-10 00:00:00	1	ppp	2	f	2	1
+\.
+
+
+--
+-- Data for Name: Request_option; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Request_option" (req_opt_id, req_id, opt_id, req_opt_date) FROM stdin;
+57f27d5c0858d06055e0bd73ca2beb6b	e921a9e32e561b36adaaeed21e93a977	1	2017-12-07 00:53:00
+f93bf319e07f6b76b7f86ad87de0467c	3d349eb911b308be22c3e00b1008a25a	1	2017-12-07 00:54:00
+cf856e6ee4bebd89022cc09e962bcadc	5939dc5e6edcbb4bbe64ea746d20f92b	1	2017-12-07 00:54:00
+7214969c96f6bd150a4be0cc1134396b	682184223c7bd99864e6f6b14ede46f1	1	2017-12-07 00:56:00
+24819c191ad0cd3e7b444bc9fcd23c57	e9bbc27718dd19e9659216eb9859df9d	2	2017-12-07 00:58:00
+94a99c5a0b299dc09833152bead3ce13	afd070ed218333777c925c42ad8d42a4	1	2017-12-07 17:50:00
+fcbd1b69294a2383085871c5ebb4d1a5	ed3417a5825b908b6fd9f65616bf89cb	1	2017-12-07 17:50:00
+c795b394225913ac85897e46fb1066a0	f5a05c2d7d2f7c5aacc54d2d1ee4d548	1	2017-12-07 17:51:00
+\.
+
+
+--
+-- Data for Name: Schedule; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Schedule" (sch_id, adm_id, com_id, sch_date, time_id, spa_id, sch_description, type_sch_id, sch_capacity, ins_id, sch_state) FROM stdin;
+1	1	1	2017-12-25 00:00:00-03	1	1	Solicitado por profesor	1	10	1	t
+2	1	2	2017-12-25 00:00:00-03	2	1	Solicitado por estudiante para ayudantía	1	20	1	t
+3	1	1	2017-12-26 00:00:00-03	1	2	N/A	1	40	1	t
+d00eae491abea2ca19ff979c7fcaf8ed	3	1	2017-10-10 00:00:00-03	1	2		1	60	1	t
+\.
+
+
+--
+-- Data for Name: Schedule_option; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Schedule_option" (sch_opt_id, sch_id, opt_id, sch_opt_date) FROM stdin;
+\.
+
+
+--
+-- Data for Name: Space; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Space" (spa_id, ins_id, spa_name, spa_date, spa_reference, spa_description, type_spa_id, spa_capacity, spa_state) FROM stdin;
+1	1	Sala 260	1999-09-09 00:00:00	Cite Camp	Sala pequeña	1	20	t
+2	1	Sala 252	1999-09-09 00:00:00	Cite Camp	Sala Grande	1	60	t
+4	2	A002	1999-09-09 00:00:00	Edificio nuevo usm	Sala comoda con inclinación	1	60	t
+3	1	Sala 367	1999-09-09 00:00:00	Mall	Sala antigua sin data	1	45	t
+5	2	B004	1999-09-09 00:00:00	Edificio B	Sala muy incómoda y chica	1	40	t
+6	2	F405	1999-09-09 00:00:00	Edificio nuevo nuevo	Sala pequeña	1	30	t
+\.
+
+
+--
+-- Data for Name: Space_option; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Space_option" (spa_opt_id, spa_id, opt_id, spa_opt_date) FROM stdin;
+1	1	1	1999-09-19 00:00:00
+2	1	2	1999-09-19 00:00:00
+3	2	1	1999-09-19 00:00:00
+\.
+
+
+--
+-- Data for Name: Space_time; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Space_time" (spa_time_id, spa_id, time_id, spa_time_date) FROM stdin;
+2	1	2	1999-09-19 00:00:00
+1	1	1	1999-09-19 00:00:00
+4	2	1	1999-09-19 00:00:00
+3	1	3	1999-09-19 00:00:00
+6	2	3	1999-09-19 00:00:00
+5	2	2	1999-09-19 00:00:00
+\.
+
+
+--
+-- Data for Name: Time_interval; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Time_interval" (time_id, ins_id, time_name, time_state, time_begin, time_end) FROM stdin;
+1	1	bloque 1-2	t	08:00:00	09:30:00
+2	1	bloque 3-4	t	09:30:00	11:00:00
+4	2	bloque 3-4	t	10:00:00	11:30:00
+3	2	bloque 1-2	t	08:15:00	09:45:00
+5	2	bloque 5-6	t	11:45:00	13:15:00
+\.
+
+
+--
+-- Data for Name: Type_administrator; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Type_administrator" (type_adm_id, ins_id, type_adm_date, type_adm_name) FROM stdin;
+1	1	1999-09-19 00:00:00	Super Usuario
+2	1	1999-09-19 00:00:00	Editor
+\.
+
+
+--
+-- Data for Name: Type_community; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Type_community" (type_com_id, ins_id, type_com_date, type_com_name) FROM stdin;
+1	1	1999-09-19 00:00:00	Estudiante
+\.
+
+
+--
+-- Data for Name: Type_request; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Type_request" (type_req_id, ins_id, type_req_name, type_req_date) FROM stdin;
+2	1	ayudantia	1999-09-19 00:00:00
+1	1	docencia	1999-09-19 00:00:00
+4	2	ayudantia	1999-09-19 00:00:00
+3	2	docencia	1999-09-19 00:00:00
+5	1	extraprogramatico	1999-09-19 00:00:00
+\.
+
+
+--
+-- Data for Name: Type_schedule; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Type_schedule" (ins_id, type_sch_name, type_sch_id, type_sch_date) FROM stdin;
+1	Sala	1	1999-09-19 00:00:00
+1	Auditorio	2	1999-09-19 00:00:00
+\.
+
+
+--
+-- Data for Name: Type_space; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Type_space" (type_spa_id, ins_id, type_spa_name, type_spa_date, type_spa_state) FROM stdin;
+1	1	Sala	1999-09-19 00:00:00	t
+7620fc62f6aa33646fcf1392c03b8cd7	1	Auditorio	2017-12-06 22:29:00	t
+becac7f6e298ea46747a1ab765917991	1	estacionamiento	2017-12-06 22:30:00	f
+94c7ab2d35ae61f1dab715814f0f3e64	1	Foro	2017-12-06 23:19:00	t
+35add1188f053afdc16cdfe00b67edf3	1	cubiculo	2017-12-06 22:41:00	f
+\.
+
+
+--
+-- Data for Name: Type_state_req; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "Type_state_req" (type_state_req_id, type_state_req_name, type_state_req_date, type_state_req_state) FROM stdin;
+2	Pending	1999-09-19 00:00:00	t
+1	Success	1999-09-19 00:00:00	t
+3	Rejected	1999-09-19 00:00:00	t
+\.
+
+
+--
+-- Data for Name: User; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "User" (user_id, ins_id, user_name, user_lastname, user_password, user_mail, user_date, user_state) FROM stdin;
+1	1	mauricio	del rio	qqqqqq	mauricio.delrio@usach.cl	1999-09-19 00:00:00	t
+2	2	user	user	qqqqqq	user@user.user	1999-09-19 00:00:00	t
+4	2	felipe	flores	prueba456	felipe.floresv@alumnos.usm.cl	1999-09-19 00:00:00	t
+3	1	ricardo	Aedo	prueba456	ricardo.aedo@usach.cl	1999-09-19 00:00:00	t
+5	1	Mauro	Admin	qqqqqq	mauricio.delr@gmail.com	1999-09-19 00:00:00	t
+6	1	Mauro	Editor	qqqqqq	mrio@mediastre.am	1999-09-19 00:00:00	t
+\.
+
+
+--
+-- Data for Name: User_session; Type: TABLE DATA; Schema: public; Owner: postgres
+--
+
+COPY "User_session" (ses_id, user_id, ses_date, ses_expiration, ses_state) FROM stdin;
+b111f079841eceb73dbbe67f23c32a7f	1	2017-11-08 17:37:00-03	2017-11-09 17:37:00-03	f
+6732225addefc60dafe6dfc195123c66	1	2017-11-08 17:37:00-03	2017-11-09 17:37:00-03	f
+7615d6bac6c8f440cb3fee18d0c26539	1	2017-11-08 17:40:00-03	2017-11-09 17:40:00-03	f
+ee1da445d156fefae50ceb0c6284d6d3	1	2017-11-08 17:42:00-03	2017-11-09 17:42:00-03	f
+9fc664c3db0612c5dd511eb0c70247e4	1	2017-11-08 17:47:00-03	2017-11-09 17:47:00-03	f
+d1fe11ffc8c9d1f1db96ea196aa5b9fc	1	2017-11-08 17:47:00-03	2017-11-09 17:47:00-03	f
+af822ccf82c58c90e28af99b23a3d443	1	2017-11-08 17:47:00-03	2017-11-09 17:47:00-03	f
+3f79909240731ea0bc943d50c27181ac	1	2017-11-08 17:47:00-03	2017-11-09 17:47:00-03	f
+98f47485f57e1352ac57799fa12b5cb9	1	2017-11-08 17:47:00-03	2017-11-09 17:47:00-03	f
+b4756dd2e032c9cba20919187af781fd	1	2017-11-08 17:47:00-03	2017-11-09 17:47:00-03	f
+8c87cc518c8d5b7a9bfaa1050c8b5d99	1	2017-11-08 17:47:00-03	2017-11-09 17:47:00-03	f
+031e58f749c2282bc8689fbe0e7ac32a	1	2017-11-08 17:47:00-03	2017-11-09 17:47:00-03	f
+e612c99cc31fab5b53606eb5b0c4b328	1	2017-11-08 17:47:00-03	2017-11-09 17:47:00-03	f
+5bcaa9dcc1a216cef6c3f4ac2de9150c	1	2017-11-08 17:52:00-03	2017-11-09 17:52:00-03	f
+54bc0473a4347f16ff31cf672826ce9a	1	2017-11-08 17:55:00-03	2017-11-09 17:55:00-03	f
+3ec34d493653d0417e6e49bbc2343c25	1	2017-11-08 18:07:00-03	2017-11-09 18:07:00-03	f
+e8da72da14cd13e3bbd76138dce3f4fc	1	2017-11-08 18:11:00-03	2017-11-09 18:11:00-03	f
+2416a401c57b04106b514b7440eaa5c0	1	2017-11-08 18:18:00-03	2017-11-09 18:18:00-03	f
+f4499c8c58907b25f374aea77729162e	1	2017-11-08 18:18:00-03	2017-11-09 18:18:00-03	f
+bc1021a50410b67cc29c8fe40b0ecc43	1	2017-11-08 18:18:00-03	2017-11-09 18:18:00-03	f
+77f18287ec975623d499121875192d75	1	2017-11-08 18:18:00-03	2017-11-09 18:18:00-03	f
+7c9bf891f814a0a56d19b39ae70d2b85	1	2017-11-18 04:27:00-03	2017-11-19 04:27:00-03	f
+b0d80fc510dfaf66b3c71b598f576c02	1	2017-11-25 23:55:00-03	2017-11-26 23:55:00-03	f
+afe95625817a4b3c9e15093e5c69b4bb	1	2017-11-27 08:15:00-03	2017-11-28 08:15:00-03	f
+0545992f969b35131dab0178a0a713c3	1	2017-12-03 12:20:00-03	2017-12-04 12:20:00-03	f
+b678734f106ef88602c0523eca6cbc14	1	2017-12-05 16:37:00-03	2017-12-06 16:37:00-03	f
+48ed5917b9a2b1f8f8fb51301cc5b6bc	1	2017-11-18 22:11:00-03	2017-11-19 22:11:00-03	f
+f2a395dfe5ce5c9cc130529467633d9d	1	2017-11-28 01:52:00-03	2017-11-29 01:52:00-03	f
+89b440e381401113286ddb36531dcfd5	1	2017-11-28 12:03:00-03	2017-11-29 12:03:00-03	f
+813335321d7a8fc61ca23fd2a1ad4b21	1	2017-12-07 13:17:00-03	2017-12-08 13:17:00-03	f
+6f6e98e7b8815e1bb3e0542928ef5ea2	5	2017-12-06 15:28:00-03	2017-12-07 15:28:00-03	f
+9ce191c119cf8db8b28a4e5391e3eebb	5	2017-12-06 15:28:00-03	2017-12-07 15:28:00-03	f
+4fd7f805e1eccc58a130df594b0a2007	5	2017-12-06 15:28:00-03	2017-12-07 15:28:00-03	f
+7142eebe49a96579a4bc11a1643957a8	5	2017-12-06 15:28:00-03	2017-12-07 15:28:00-03	f
+106274cfb895563741ad9459aae5052f	5	2017-12-06 14:05:00-03	2017-12-07 14:05:00-03	f
+4e2a798235b8456e7ee9b04729fbc4b6	5	2017-12-06 14:22:00-03	2017-12-07 14:22:00-03	f
+1c98fddb4bcc81ebf12dca10bf86e050	6	2017-12-07 09:13:00-03	2017-12-08 09:13:00-03	f
+fbd74161e0728f863205113b23b8b2c7	6	2017-12-07 13:23:00-03	2017-12-08 13:23:00-03	f
+0c27c3742d1b4037b7b5a70792dfccf3	5	2017-12-06 14:28:00-03	2017-12-07 14:28:00-03	f
+31e878914f89eab6cfd1a78094917b57	5	2017-12-06 14:32:00-03	2017-12-07 14:32:00-03	f
+cd04799f9983b37510ba950eb7048a71	5	2017-12-06 15:28:00-03	2017-12-07 15:28:00-03	f
+d5fdf264584c27b85ce9799e297a7e11	1	2017-12-03 11:39:00-03	2017-12-04 11:39:00-03	f
+15b8febe24d37f901e246fb2b297f2e4	1	2017-12-03 12:06:00-03	2017-12-04 12:06:00-03	f
+0c617bf1935e347910bb29bdefb68757	1	2017-12-03 12:16:00-03	2017-12-04 12:16:00-03	f
+77d6c8005744282f600ab945fbfb1b44	1	2017-12-06 13:36:00-03	2017-12-07 13:36:00-03	f
+bef94de15659f2b4cdf11cced1312994	1	2017-12-06 13:41:00-03	2017-12-07 13:41:00-03	f
+25b10ac20485fc2ffdfca3d5544e39ca	1	2017-12-06 13:45:00-03	2017-12-07 13:45:00-03	f
+6c25725dbb5f10c1647a1e302e7b91e6	1	2017-12-06 22:34:00-03	2017-12-07 22:34:00-03	f
+dcdc33ec781745457be89ac81bb9071c	1	2017-11-27 18:41:00-03	2017-11-28 18:41:00-03	f
+dfa54ffe4f60dba3c975078f4ee560cf	1	2017-11-28 02:27:00-03	2017-11-29 02:27:00-03	f
+8f956d44566530a65b3c8fc8f0e01fe6	1	2017-11-30 08:55:00-03	2017-12-01 08:55:00-03	f
+27405a537235ae1e61b2ab8e50da81c9	1	2017-12-03 11:36:00-03	2017-12-04 11:36:00-03	f
+c685d697e871a5d30c5c5a9f9eae5dc2	1	2017-12-03 11:46:00-03	2017-12-04 11:46:00-03	f
+3d1168a12777a640a24889c4e1a19451	1	2017-12-03 12:07:00-03	2017-12-04 12:07:00-03	f
+c5383e5af5d57bec33b00ab9b0315684	1	2017-12-03 12:09:00-03	2017-12-04 12:09:00-03	f
+9062af894dc191f8a2d3bf25bd13c8ca	1	2017-12-03 12:11:00-03	2017-12-04 12:11:00-03	f
+0b22d8054c783e99f2a3f49b5a548ac5	1	2017-11-08 18:20:00-03	2017-11-09 18:20:00-03	f
+b18c384412d59872d11e355026d11f9c	5	2017-12-06 15:28:00-03	2017-12-07 15:28:00-03	f
+0b317e839ecc3e2f4cc8d15a5f91b77b	5	2017-12-06 22:40:00-03	2017-12-07 22:40:00-03	f
+c08eb9d79ad2997a52838e31401dd75c	5	2017-12-06 23:42:00-03	2017-12-07 23:42:00-03	f
+986f59f6b9c1798cc41758dc8056cc36	5	2017-12-06 15:19:00-03	2017-12-07 15:19:00-03	f
+90f9f822538d8b7c8509021cf374cbe3	5	2017-12-06 15:21:00-03	2017-12-07 15:21:00-03	f
+000119079a8458daa97ff1cfe2dd0463	5	2017-12-06 15:28:00-03	2017-12-07 15:28:00-03	f
+7abee80e4c7a7c3910ef7bcaed216edb	1	2017-11-08 18:45:00-03	2017-11-09 18:45:00-03	f
+1fb9de4b8579278e024e9d1c974d16db	5	2017-12-06 15:36:00-03	2017-12-07 15:36:00-03	f
+8508174a7c0d7e2337de58ceedff4cca	5	2017-12-06 15:28:00-03	2017-12-07 15:28:00-03	f
+f4a2d76df41217eb196c266fb662b40a	5	2017-12-06 15:28:00-03	2017-12-07 15:28:00-03	f
+4a0eb810119e87ca33ef5e5beb6d021c	5	2017-12-06 15:28:00-03	2017-12-07 15:28:00-03	f
+0fec556d186f76a8ad3d85244905193a	5	2017-12-06 15:28:00-03	2017-12-07 15:28:00-03	f
+134ddf98f1d7ed40e331e02672f02066	5	2017-12-06 15:28:00-03	2017-12-07 15:28:00-03	f
+8093ae619ee2a18acc3ce01cabbf5a1f	1	2017-11-08 18:45:00-03	2017-11-09 18:45:00-03	f
+e653b60426ba495082a6d68bdd54224d	1	2017-11-08 18:45:00-03	2017-11-09 18:45:00-03	f
+e0d08b72af7da45d03fa124674939e02	1	2017-11-08 18:45:00-03	2017-11-09 18:45:00-03	f
+db10b431b04fd117dab50f3b641491c5	1	2017-11-08 18:46:00-03	2017-11-09 18:46:00-03	f
+3938b740cbebbf2f75ff5cc8e7182107	1	2017-11-08 18:59:00-03	2017-11-09 18:59:00-03	f
+b1294c67c5ffb93693af784695f1247e	6	2017-12-07 17:28:00-03	2017-12-08 17:28:00-03	f
+1835d2a0e2cf36e054b6205c746a158a	5	2017-12-06 15:28:00-03	2017-12-07 15:28:00-03	f
+5dc4f9c5f657b086d4469bf5699c4571	5	2017-12-06 14:19:00-03	2017-12-07 14:19:00-03	f
+b072328a4b1c9f47bb58aecab907c2f8	5	2017-12-06 15:28:00-03	2017-12-07 15:28:00-03	f
+015bf8813dcbdbeb1a6fbf440654ee66	5	2017-12-06 14:25:00-03	2017-12-07 14:25:00-03	f
+c0589752f939f9d131c0634ed5b41850	5	2017-12-06 14:30:00-03	2017-12-07 14:30:00-03	f
+29cacfea82cdff910f7396eb7673da06	5	2017-12-06 15:13:00-03	2017-12-07 15:13:00-03	f
+49de65ebf809b56640f1a9c7072e2c97	5	2017-12-06 15:20:00-03	2017-12-07 15:20:00-03	f
+a14a441fd7a852bba5af765c1bb1c63b	5	2017-12-06 15:34:00-03	2017-12-07 15:34:00-03	f
+d2e27915426eaaf212d52dcfd4f44513	5	2017-12-06 15:39:00-03	2017-12-07 15:39:00-03	f
+0f80757eb2f812eed1d4b000ff8ee428	5	2017-12-06 15:46:00-03	2017-12-07 15:46:00-03	f
+2977590a6018fb7c90f76b876f4f792a	5	2017-12-07 13:16:00-03	2017-12-08 13:16:00-03	f
+8f2695f920bd8ebd34091d01b9b15bed	5	2017-12-06 23:18:00-03	2017-12-07 23:18:00-03	f
+f1c11848cdacd1f8f0cb906c83e64161	5	2017-12-07 17:30:00-03	2017-12-08 17:30:00-03	t
+5e24fa9c3eee9f266bfc283925816ada	1	2017-11-08 19:10:00-03	2017-11-09 19:10:00-03	f
+22dd239710664ce9722dd8e90dd14ee7	1	2017-11-18 03:05:00-03	2017-11-19 03:05:00-03	f
+f4ed34e3ee87b90e82a3619573b6ba14	1	2017-12-06 23:42:00-03	2017-12-07 23:42:00-03	f
+7f0b8d1b166b2f566692a794c9acb516	1	2017-11-18 03:34:00-03	2017-11-19 03:34:00-03	f
+d2d184bd74021f1a2dc9d8305ce1654d	1	2017-11-18 03:35:00-03	2017-11-19 03:35:00-03	f
+c7532e7a6a1097f3112477d7c7918001	1	2017-11-18 03:37:00-03	2017-11-19 03:37:00-03	f
+294ac61a1aa46e3ba59a53167061c7ac	1	2017-11-18 03:38:00-03	2017-11-19 03:38:00-03	f
+233dc7392d81e712b87910f2e839909c	1	2017-11-18 03:40:00-03	2017-11-19 03:40:00-03	f
+1eb87697432c5abf7ffde423eec59c39	1	2017-11-18 03:41:00-03	2017-11-19 03:41:00-03	f
+46cbcf032c42a5a2c69a5ec88271f90c	1	2017-11-18 04:12:00-03	2017-11-19 04:12:00-03	f
+45aba5c10b444d30837b94eedc718806	1	2017-11-18 04:21:00-03	2017-11-19 04:21:00-03	f
+e5284b3a5d11482b9de53712c5a7bd54	1	2017-12-06 23:14:00-03	2017-12-07 23:14:00-03	f
+794ceb863632386cdefb6a8dfa929eb2	1	2017-12-07 17:29:00-03	2017-12-08 17:29:00-03	f
+ffc553858f03b4c18e87bbf3c91a0b50	1	2017-12-07 17:50:00-03	2017-12-08 17:50:00-03	t
+47a0df11dd9c6107a538955481297392	6	2017-12-07 17:35:00-03	2017-12-08 17:35:00-03	f
+d9a40a18224ef1e358f91598696a8bf9	6	2017-12-07 17:50:00-03	2017-12-08 17:50:00-03	f
+8ea4791d5d9e9d4d284e280a1d408a8d	6	2017-12-07 17:51:00-03	2017-12-08 17:51:00-03	t
+\.
+
+
+--
+-- Name: Administrator_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Administrator"
+    ADD CONSTRAINT "Administrator_pkey" PRIMARY KEY (adm_id);
+
+
+--
+-- Name: Community_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Community"
+    ADD CONSTRAINT "Community_pkey" PRIMARY KEY (com_id);
+
+
+--
+-- Name: Institution_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Institution"
+    ADD CONSTRAINT "Institution_pkey" PRIMARY KEY (ins_id);
+
+
+--
+-- Name: Option_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Option"
+    ADD CONSTRAINT "Option_pkey" PRIMARY KEY (opt_id);
+
+
+--
+-- Name: Request_option_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Request_option"
+    ADD CONSTRAINT "Request_option_pkey" PRIMARY KEY (req_opt_id);
+
+
+--
+-- Name: Request_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Request"
+    ADD CONSTRAINT "Request_pkey" PRIMARY KEY (req_id);
+
+
+--
+-- Name: Schedule_option_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Schedule_option"
+    ADD CONSTRAINT "Schedule_option_pkey" PRIMARY KEY (sch_opt_id);
+
+
+--
+-- Name: Schedule_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Schedule"
+    ADD CONSTRAINT "Schedule_pkey" PRIMARY KEY (sch_id);
+
+
+--
+-- Name: Space_option_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Space_option"
+    ADD CONSTRAINT "Space_option_pkey" PRIMARY KEY (spa_opt_id);
+
+
+--
+-- Name: Space_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Space"
+    ADD CONSTRAINT "Space_pkey" PRIMARY KEY (spa_id);
+
+
+--
+-- Name: Space_time_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Space_time"
+    ADD CONSTRAINT "Space_time_pkey" PRIMARY KEY (spa_time_id);
+
+
+--
+-- Name: Time_interval_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Time_interval"
+    ADD CONSTRAINT "Time_interval_pkey" PRIMARY KEY (time_id);
+
+
+--
+-- Name: Type_administrator_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Type_administrator"
+    ADD CONSTRAINT "Type_administrator_pkey" PRIMARY KEY (type_adm_id);
+
+
+--
+-- Name: Type_community_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Type_community"
+    ADD CONSTRAINT "Type_community_pkey" PRIMARY KEY (type_com_id);
+
+
+--
+-- Name: Type_request_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Type_request"
+    ADD CONSTRAINT "Type_request_pkey" PRIMARY KEY (type_req_id);
+
+
+--
+-- Name: Type_schedule_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Type_schedule"
+    ADD CONSTRAINT "Type_schedule_pkey" PRIMARY KEY (type_sch_id);
+
+
+--
+-- Name: Type_space_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Type_space"
+    ADD CONSTRAINT "Type_space_pkey" PRIMARY KEY (type_spa_id);
+
+
+--
+-- Name: Type_state_req_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Type_state_req"
+    ADD CONSTRAINT "Type_state_req_pkey" PRIMARY KEY (type_state_req_id);
+
+
+--
+-- Name: User_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "User"
+    ADD CONSTRAINT "User_pkey" PRIMARY KEY (user_id);
+
+
+--
+-- Name: User_session_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "User_session"
+    ADD CONSTRAINT "User_session_pkey" PRIMARY KEY (ses_id);
+
+
+--
+-- Name: fki_admin_schedule; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_admin_schedule ON "Schedule" USING btree (adm_id);
+
+
+--
+-- Name: fki_admin_user; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_admin_user ON "Administrator" USING btree (user_id);
+
+
+--
+-- Name: fki_community_user; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_community_user ON "Community" USING btree (user_id);
+
+
+--
+-- Name: fki_institution_opt; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_institution_opt ON "Option" USING btree (ins_id);
+
+
+--
+-- Name: fki_institution_req; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_institution_req ON "Request" USING btree (ins_id);
+
+
+--
+-- Name: fki_option_req_op; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_option_req_op ON "Request_option" USING btree (opt_id);
+
+
+--
+-- Name: fki_option_schedule_option; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_option_schedule_option ON "Schedule_option" USING btree (opt_id);
+
+
+--
+-- Name: fki_option_space_option; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_option_space_option ON "Space_option" USING btree (opt_id);
+
+
+--
+-- Name: fki_req_req_op; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_req_req_op ON "Request_option" USING btree (req_id);
+
+
+--
+-- Name: fki_schedule_schedule_option; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_schedule_schedule_option ON "Schedule_option" USING btree (sch_id);
+
+
+--
+-- Name: fki_space_institution; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_space_institution ON "Space" USING btree (ins_id);
+
+
+--
+-- Name: fki_space_schedule; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_space_schedule ON "Schedule" USING btree (spa_id);
+
+
+--
+-- Name: fki_space_space_opt; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_space_space_opt ON "Space_option" USING btree (spa_id);
+
+
+--
+-- Name: fki_space_space_time; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_space_space_time ON "Space_time" USING btree (spa_id);
+
+
+--
+-- Name: fki_t_sch; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_t_sch ON "Schedule" USING btree (type_sch_id);
+
+
+--
+-- Name: fki_time_institution; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_time_institution ON "Time_interval" USING btree (ins_id);
+
+
+--
+-- Name: fki_time_sch; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_time_sch ON "Request" USING btree (time_id);
+
+
+--
+-- Name: fki_time_schedule; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_time_schedule ON "Schedule" USING btree (time_id);
+
+
+--
+-- Name: fki_time_space_time; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_time_space_time ON "Space_time" USING btree (time_id);
+
+
+--
+-- Name: fki_type_adm_ins; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_type_adm_ins ON "Type_administrator" USING btree (ins_id);
+
+
+--
+-- Name: fki_type_com_ins; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_type_com_ins ON "Type_community" USING btree (ins_id);
+
+
+--
+-- Name: fki_type_req_ins; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_type_req_ins ON "Type_request" USING btree (ins_id);
+
+
+--
+-- Name: fki_type_req_req; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_type_req_req ON "Request" USING btree (type_req_id);
+
+
+--
+-- Name: fki_type_sch_ins; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_type_sch_ins ON "Type_schedule" USING btree (ins_id);
+
+
+--
+-- Name: fki_type_spa_ins; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_type_spa_ins ON "Type_space" USING btree (ins_id);
+
+
+--
+-- Name: fki_type_spa_spa; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_type_spa_spa ON "Space" USING btree (type_spa_id);
+
+
+--
+-- Name: fki_type_state_req_req; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_type_state_req_req ON "Request" USING btree (type_state_req_id);
+
+
+--
+-- Name: fki_user_institution; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_user_institution ON "User" USING btree (ins_id);
+
+
+--
+-- Name: fki_user_req; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_user_req ON "Request" USING btree (user_id);
+
+
+--
+-- Name: fki_user_schedule; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_user_schedule ON "Schedule" USING btree (com_id);
+
+
+--
+-- Name: fki_user_user_session; Type: INDEX; Schema: public; Owner: postgres
+--
+
+CREATE INDEX fki_user_user_session ON "User_session" USING btree (user_id);
+
+
+--
+-- Name: _RETURN; Type: RULE; Schema: public; Owner: postgres
+--
+
+CREATE RULE "_RETURN" AS
+    ON SELECT TO reporte_sesiones DO INSTEAD  SELECT "User".user_id,
+    "User".user_name,
+    count(*) AS count
+   FROM "User",
+    "User_session"
+  WHERE (("User".user_id)::text = ("User_session".user_id)::text)
+  GROUP BY "User".user_id;
+
+
+--
+-- Name: admin_schedule; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Schedule"
+    ADD CONSTRAINT admin_schedule FOREIGN KEY (adm_id) REFERENCES "Administrator"(adm_id);
+
+
+--
+-- Name: admin_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Administrator"
+    ADD CONSTRAINT admin_user FOREIGN KEY (user_id) REFERENCES "User"(user_id);
+
+
+--
+-- Name: com_sch; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Schedule"
+    ADD CONSTRAINT com_sch FOREIGN KEY (com_id) REFERENCES "Community"(com_id);
+
+
+--
+-- Name: community_user; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Community"
+    ADD CONSTRAINT community_user FOREIGN KEY (user_id) REFERENCES "User"(user_id);
+
+
+--
+-- Name: institution_opt; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Option"
+    ADD CONSTRAINT institution_opt FOREIGN KEY (ins_id) REFERENCES "Institution"(ins_id);
+
+
+--
+-- Name: institution_req; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Request"
+    ADD CONSTRAINT institution_req FOREIGN KEY (ins_id) REFERENCES "Institution"(ins_id);
+
+
+--
+-- Name: option_req_op; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Request_option"
+    ADD CONSTRAINT option_req_op FOREIGN KEY (opt_id) REFERENCES "Option"(opt_id);
+
+
+--
+-- Name: option_schedule_option; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Schedule_option"
+    ADD CONSTRAINT option_schedule_option FOREIGN KEY (opt_id) REFERENCES "Option"(opt_id);
+
+
+--
+-- Name: option_space_option; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Space_option"
+    ADD CONSTRAINT option_space_option FOREIGN KEY (opt_id) REFERENCES "Option"(opt_id);
+
+
+--
+-- Name: req_req_op; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Request_option"
+    ADD CONSTRAINT req_req_op FOREIGN KEY (req_id) REFERENCES "Request"(req_id);
+
+
+--
+-- Name: schedule_schedule_option; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Schedule_option"
+    ADD CONSTRAINT schedule_schedule_option FOREIGN KEY (sch_id) REFERENCES "Schedule"(sch_id);
+
+
+--
+-- Name: space_institution; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Space"
+    ADD CONSTRAINT space_institution FOREIGN KEY (ins_id) REFERENCES "Institution"(ins_id);
+
+
+--
+-- Name: space_schedule; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Schedule"
+    ADD CONSTRAINT space_schedule FOREIGN KEY (spa_id) REFERENCES "Space"(spa_id);
+
+
+--
+-- Name: space_space_opt; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Space_option"
+    ADD CONSTRAINT space_space_opt FOREIGN KEY (spa_id) REFERENCES "Space"(spa_id);
+
+
+--
+-- Name: space_space_time; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Space_time"
+    ADD CONSTRAINT space_space_time FOREIGN KEY (spa_id) REFERENCES "Space"(spa_id);
+
+
+--
+-- Name: t_sch; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Schedule"
+    ADD CONSTRAINT t_sch FOREIGN KEY (type_sch_id) REFERENCES "Type_schedule"(type_sch_id);
+
+
+--
+-- Name: time_institution; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Time_interval"
+    ADD CONSTRAINT time_institution FOREIGN KEY (ins_id) REFERENCES "Institution"(ins_id);
+
+
+--
+-- Name: time_sch; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Request"
+    ADD CONSTRAINT time_sch FOREIGN KEY (time_id) REFERENCES "Time_interval"(time_id);
+
+
+--
+-- Name: time_schedule; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Schedule"
+    ADD CONSTRAINT time_schedule FOREIGN KEY (time_id) REFERENCES "Time_interval"(time_id);
+
+
+--
+-- Name: time_space_time; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Space_time"
+    ADD CONSTRAINT time_space_time FOREIGN KEY (time_id) REFERENCES "Time_interval"(time_id);
+
+
+--
+-- Name: type_adm_ins; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Type_administrator"
+    ADD CONSTRAINT type_adm_ins FOREIGN KEY (ins_id) REFERENCES "Institution"(ins_id);
+
+
+--
+-- Name: type_com_ins; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Type_community"
+    ADD CONSTRAINT type_com_ins FOREIGN KEY (ins_id) REFERENCES "Institution"(ins_id);
+
+
+--
+-- Name: type_req_ins; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Type_request"
+    ADD CONSTRAINT type_req_ins FOREIGN KEY (ins_id) REFERENCES "Institution"(ins_id);
+
+
+--
+-- Name: type_req_req; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Request"
+    ADD CONSTRAINT type_req_req FOREIGN KEY (type_req_id) REFERENCES "Type_request"(type_req_id);
+
+
+--
+-- Name: type_sch_ins; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Type_schedule"
+    ADD CONSTRAINT type_sch_ins FOREIGN KEY (ins_id) REFERENCES "Institution"(ins_id);
+
+
+--
+-- Name: type_spa_ins; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Type_space"
+    ADD CONSTRAINT type_spa_ins FOREIGN KEY (ins_id) REFERENCES "Institution"(ins_id);
+
+
+--
+-- Name: type_spa_spa; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Space"
+    ADD CONSTRAINT type_spa_spa FOREIGN KEY (type_spa_id) REFERENCES "Type_space"(type_spa_id);
+
+
+--
+-- Name: type_state_req_req; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Request"
+    ADD CONSTRAINT type_state_req_req FOREIGN KEY (type_state_req_id) REFERENCES "Type_state_req"(type_state_req_id);
+
+
+--
+-- Name: user_institution; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "User"
+    ADD CONSTRAINT user_institution FOREIGN KEY (ins_id) REFERENCES "Institution"(ins_id);
+
+
+--
+-- Name: user_req; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "Request"
+    ADD CONSTRAINT user_req FOREIGN KEY (user_id) REFERENCES "User"(user_id);
+
+
+--
+-- Name: user_user_session; Type: FK CONSTRAINT; Schema: public; Owner: postgres
+--
+
+ALTER TABLE ONLY "User_session"
+    ADD CONSTRAINT user_user_session FOREIGN KEY (user_id) REFERENCES "User"(user_id);
+
+
+--
+-- Name: public; Type: ACL; Schema: -; Owner: postgres
+--
+
+REVOKE ALL ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON SCHEMA public FROM postgres;
+GRANT ALL ON SCHEMA public TO postgres;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+--
+-- PostgreSQL database dump complete
+--
+

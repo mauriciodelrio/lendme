@@ -11,6 +11,7 @@
   "dependencies": {
     "async": "^2.5.0",
     "body-parser": "~1.17.1",
+    "bootstrap-sweetalert": "^1.0.1",
     "coffee-script": "^1.12.7",
     "coffeescript": "^1.12.7",
     "connect-redis": "^3.3.2",
